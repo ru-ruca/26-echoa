@@ -1,6 +1,6 @@
 # Echoa 콘텐츠 생성 파이프라인 Spec (C-2 패턴 문장 · C-3 대화)
 
-> **Status**: Spec 초안 — 파일럿(M01~03) 착수 대기
+> **Status**: 파일럿 진행 중 — Phase 0(추출·허용 어휘) 완료 2026-07-30. **구현·진행 상태: [tools/content-pipeline/](../../tools/content-pipeline/README.md)**
 > **작성일**: 2026-07-28
 > **근거 조사**: [docs/research/2026-07_content-expansion-research.md](../research/2026-07_content-expansion-research.md) (출처 URL·미확인 항목 포함)
 > **상위 spec**: [22 학습설계·UI/UX §8 콘텐츠 확장 백로그](22_learning-design-spec.md) · **제약**: [ADR-010 저작권·데이터모델](../adr/010_content-copyright-and-data-model.md)
@@ -116,9 +116,10 @@ B: Sometimes, but I get used to it.       ← 이어짐(생성)
 
 - 48개월 일괄 생성 · 생성물을 다시 씨앗으로 재귀 생성(model collapse) · 검수 없이 노출 · 프롬프트만으로 난이도 통제 신뢰 · 씨앗 단어만 바꾼 "재작성"(저작권 미해결).
 
-## 9. 미결정
+## 9. 미결정 (2026-07-30 갱신)
 
-- LLM 모델·비용 산정(생성+judge 2회 호출 구조).
-- 씨앗 유사도·허용 어휘 초과율의 구체 임계값 — 파일럿에서 실측 후 확정.
-- 자동 문법 검사 도구 선택.
+- ~~LLM 모델·비용 산정~~ → **해결(D-27)**: Claude Code 세션(구독) 수행, API 비용 없음.
+- ~~허용 어휘 초과율 임계값~~ → **실측 완료**: `first_month`가 month 누적이 아니라(1/7/13/25만 존재) CEFR 기반 core/extended 이원화로 대체. 기존 문장 62%가 core 밖 단어 사용 → extended 기준 초과 0 + core 기준 ≤2(p90). [실측 리포트](../../tools/content-pipeline/reports/02_allowlist_baseline.md).
+- 씨앗 유사도 임계값 — Phase 1(C-1)에서 실측 후 확정.
+- 자동 문법 검사 도구 — 파일럿(소규모, 인간 검수 커버 가능)은 judge에 포함, C-2 대량 생성 전 LanguageTool 도입.
 - C-2 변형을 학습 흐름에서 어떻게 쓸지(복습 변형 문제 vs 신규 문장) — [22번](22_learning-design-spec.md) 흐름과 연계 필요.
