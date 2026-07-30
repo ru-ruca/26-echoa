@@ -1,0 +1,15 @@
+[project]
+name = "content-pipeline"
+version = "0.1.0"
+description = "Echoa 콘텐츠 생성 파이프라인 — C-1 재작성·C-2 패턴 문장·C-3 대화 (spec: docs/project-review/23)"
+requires-python = ">=3.12"
+dependencies = [
+    "psycopg2-binary>=2.9",
+    "python-dotenv>=1.0",
+    "spacy>=3.8,<4",
+    "en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl",
+    "click>=8.4.2",
+]
+
+[tool.uv]
+package = false

@@ -1,0 +1,8 @@
+# 원문 격리 (ADR-010) — 저작권 원문 verbatim이 포함되는 경로는 git에 올리지 않는다
+data/
+reports/restricted/
+
+# python
+__pycache__/
+.venv/
+*.pyc
