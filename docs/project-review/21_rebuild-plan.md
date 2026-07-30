@@ -111,14 +111,18 @@ Spec-driven(자연어 spec → 타입/스키마 → 구현, spec이 SSOT):
 - [x] **앱 이름 = Echoa**, repo `26-echoa`(remote `ru-ruca/26-echoa`, main+develop). KIPRIS·도메인만 출시 전 확인
 - [ ] **착수 순서만 남음**: 콘텐츠 파이프라인 파일럿([23](23_content-pipeline-spec.md), M01~03) vs 모노레포 스캐폴딩(단계 1)
 
+### 작업 환경 권장
+
+**VS Code workspace에 두 폴더를 함께 열 것** — `26-echoa`(첫 폴더, 작업 대상) + `26-SenTalk-en-study-app`(legacy 참조). 단계 1이 legacy의 `web/src/lib/*`·`web/src/db/schema.ts`를 읽어 `packages/`로 옮기는 작업이라 참조가 필수. 이관이 끝나면 echoa 단독으로 좁혀도 됨.
+
 ### 다음 세션 착수 프롬프트 (복붙용)
 
-**옵션 A — 모노레포 스캐폴딩(단계 1)**:
-> Echoa(구 SenTalk)를 RN/Expo + Next.js 모노레포로 재구성한다. 결정·계획은 `docs/adr/009_stack-monorepo-decision.md`·`010_content-copyright-and-data-model.md`·`docs/project-review/21_rebuild-plan.md` 참고. create-t3-turbo 기반으로 이 repo(`26-echoa`) 루트에 모노레포를 스캐폴딩하고, legacy(`../26-SenTalk-en-study-app`)의 `web/src/lib/{fsrs,gamification,dialogue,review-utils}.ts`·`web/src/db/schema.ts`를 `packages/{core,db}`로 이관하는 계획을 세워라. DB는 개발 docker + 프로덕션 Neon, 콘텐츠 데이터 모델은 ADR-010(공개분 free만, `content_originals` 격리)을 반영할 것.
+**옵션 A — 콘텐츠 파이프라인 파일럿** ([23](23_content-pipeline-spec.md), 콘텐츠 우선):
+> Echoa 콘텐츠 파이프라인 파일럿을 착수한다. spec은 `docs/project-review/23_content-pipeline-spec.md`, 제약은 `docs/adr/010_content-copyright-and-data-model.md`. 순서: ① legacy DB(`../26-SenTalk-en-study-app`, Neon)에서 M01~03 문장·허용 어휘를 추출 ② 허용 어휘 목록 구성(month 누적 + CEFR) ③ C-2(substitution drill, 씨앗당 5~8) 생성 프롬프트와 검수 게이트(하드필터→LLM judge→인간 5~10%)를 설계·구현 ④ C-1 저작권 위험 씨앗(quote·movie 등 341개) 우선 처리. 성공 기준은 23 §5(judge ≥4/5, 인간 합격 ≥90%, 중복 <2%, 씨앗 유사도 초과 0건). 48개월 일괄 생성·생성물 재씨앗 금지.
 
-**옵션 B — 학습설계·UI/UX spec(단계 3 선행)**:
-> Echoa(구 SenTalk) 학습설계·UI/UX를 재설계한다. `docs/project-review/19_communication-first-redesign.md`(일상 소통 중심)·`15_learning-flow-spec.md`(4단계 플로우)를 기준선으로, `20_release-feasibility.md §5.5`(발화+동기 설계) 방향을 반영한 학습 흐름 spec을 자연어로 작성하라. 콘텐츠 처리 방침은 `docs/adr/010_content-copyright-and-data-model.md`(공개분 free만·원문 격리·위험 슬라이스 AI 재작성)를 준수 — 실측 341개(9.4%)+news·ted·drama 계열.
+**옵션 B — 모노레포 스캐폴딩** ([21 단계1](21_rebuild-plan.md), 코드 골격 우선):
+> Echoa 모노레포를 스캐폴딩한다. 결정은 `docs/adr/009_stack-monorepo-decision.md`, 계획은 `docs/project-review/21_rebuild-plan.md` §2·§3. create-t3-turbo 기반으로 이 repo(`26-echoa`) 루트에 `apps/{web,native}`·`packages/{db,core,api,config}`를 만들고, legacy(`../26-SenTalk-en-study-app`)의 `web/src/lib/{fsrs,gamification,dialogue,speech-sequence,review-utils}.ts`를 `packages/core`로, `web/src/db/schema.ts`를 `packages/db`로 이관하라. DB는 개발 docker + 프로덕션 Neon, 스키마에 ADR-010(`content_originals` 격리·`content_origin` 필드)을 반영. 공유 경계는 좁게(UI는 웹/앱 각각), Solito 스킵.
 
-### 현 repo에서 남은 무후회 작업(선택, 새 repo 없이 가능)
-- 저작권 위험 슬라이스(quote·movie·news·ted·drama 등)의 실제 문장 샘플 검토 → 재생성/교체/유지 판별 기준 마련.
-- `packages/core` 이관 대상(fsrs·gamification 등)의 외부 의존성 점검(순수 TS 여부 확인 — 이관 난이도 사전 파악).
+### 착수 전 사전 점검(선택)
+- `packages/core` 이관 대상(fsrs·gamification·dialogue·review-utils)의 외부 의존성 점검 — 순수 TS인지 확인해 이관 난이도 사전 파악.
+- 저작권 위험 슬라이스 실제 문장 샘플 검토 → 재작성/교체/유지 판별 기준 구체화.
