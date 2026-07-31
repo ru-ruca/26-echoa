@@ -55,7 +55,8 @@
 - [x] 기획·설계·조사 문서 이관 (SenTalk → echoa)
 - [x] 콘텐츠 확장 조사(C-2/C-3) → [23 spec](docs/project-review/23_content-pipeline-spec.md)
 - [x] 콘텐츠 파이프라인 파일럿 착수(D-26·D-27) — Phase 0 완료: 추출·허용 어휘·baseline 실측 → [tools/content-pipeline/](tools/content-pipeline/README.md)
-- [ ] 다음: 파일럿 Phase 1(C-1 재작성 27개) → Phase 2(C-2) → Phase 3(C-3) → 기준 통과 시 C-1 341 확대
+- [x] 파일럿 Phase 1(C-1 재작성 27개) 생성·게이트·채점 완료 — judge 4.03, [지표](tools/content-pipeline/reports/04_c1_pilot_metrics.md)
+- [ ] 다음: **C-1 인간 검수**(`tools/content-pipeline/reports/restricted/c1_review_sheet.md`에 채택 표기) → Phase 2(C-2) → Phase 3(C-3) → 기준 통과 시 C-1 341 확대
 - [ ] 이후: 모노레포 스캐폴딩(21 단계1)
 
 ## Git
