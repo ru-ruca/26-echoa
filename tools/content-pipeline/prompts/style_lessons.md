@@ -17,6 +17,14 @@
    단, 고빈도 관용 청크는 분해 불가능한 통청크로 취급해 허용 가능 (예: just the way I am).
 7. **시간대·상황 제약이 적은 문장 우선** — "Hello"가 "Good morning"보다 재사용 범위가 넓다.
 
+## 외부 교차 검토 교훈 (2026-07-31, fix 6·대안교체 3)
+
+8. **translationese 경계** — 문법상 맞아도 원어민 표현이 아닌 직역투: "It never comes back" → "You can't get it back".
+9. **기능 정합성** — 재작성문이 씨앗의 화용 기능을 실제로 수행해야 한다 (행운 기원 자리에 격려문 ✗, M01_041).
+10. **세트 내 중복 회피** — 같은 오프닝("Don't worry.")이 두 문장에 나오면 하나는 교체 (M01_041 vs M02_020).
+11. 콜로케이션 추가: `no bad questions`(wrong ✗) · `the big day`는 특정 행사(결혼식 등) 한정 — 습관문과 충돌.
+12. **명령형이 어색한 동사구는 서술형으로** — "learn along the way"는 명령이 아니라 "You'll learn along the way."
+
 ## judge v2 반영 사항 (judge 1위 ≠ 인간 채택 4건의 원인)
 
 - **실제 발화 빈도(관용성)** 가중이 부족했다 — naturalness에 "원어민이 이 조합을 실제로 쓰는가"를 명시.

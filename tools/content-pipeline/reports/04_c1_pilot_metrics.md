@@ -19,6 +19,12 @@
 - 검수자 대안 제안 4건(M01_031·M02_012·M02_022·M03_034) 게이트 4/4 통과 → 외부 검토에서 채택본과 비교 판정 예정.
 - judge 1위와 인간 채택 불일치 4건 — 관용성 가중 부족. judge v2 개선 사항으로 style_lessons에 기록.
 
+## 외부 AI 교차 검토 회수 (2026-07-31)
+
+- 31건(채택 27 + 대안 4) 검토 → **fix 6 · 대안 우세 판정 3(쌍 양쪽 일관) · 나머지 ok**.
+- 반영: [output/c1_final.jsonl](../output/c1_final.jsonl) = 유지 19 + 외부수정 5 + 대안교체 3. **게이트 재검증 27/27 통과** — 이것이 echoa DB 적재 대기 최종본.
+- 승인 어휘 luck 추가(기능 정합 — Good luck). 교훈 5건(translationese·기능 정합·세트 내 중복 등) style_lessons §8~12 추가.
+
 ## 게이트·채점 요약
 
 - 후보 81 → 게이트 통과 75 (93%) — 탈락 사유: {'vocab_extended': 4, 'too_similar_to_seed': 1, 'vocab_core_p90': 1}

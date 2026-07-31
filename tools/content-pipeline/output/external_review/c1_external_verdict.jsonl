@@ -1,0 +1,31 @@
+{"id": "M01_001", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": null}
+{"id": "M01_011", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": null}
+{"id": "M01_013", "type": "adopted", "verdict": "fix", "issue": "Uncontracted \"you will\" reads stiff for spoken practice.", "fixed_en": "Keep going, and you'll win.", "fixed_kr": "계속 나아가면 이길 거예요.", "pick": null}
+{"id": "M01_022", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": null}
+{"id": "M01_024", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": null}
+{"id": "M01_031", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": "adopted"}
+{"id": "M01_033", "type": "adopted", "verdict": "fix", "issue": "\"No wrong questions\" is not the native collocation; speakers say \"no bad/stupid questions.\"", "fixed_en": "Ask anything. There are no bad questions.", "fixed_kr": "무엇이든 물어보세요. 나쁜 질문은 없어요.", "pick": null}
+{"id": "M01_040", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": null}
+{"id": "M01_041", "type": "adopted", "verdict": "fix", "issue": "Sentence doesn't perform its stated function (wishing luck) and repeats M02_020's \"Don't worry.\"", "fixed_en": "Good luck! I believe in you.", "fixed_kr": "행운을 빌어요! 저는 당신을 믿어요.", "pick": null}
+{"id": "M02_001", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": null}
+{"id": "M02_010", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": null}
+{"id": "M02_012", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": "alternative"}
+{"id": "M02_020", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": null}
+{"id": "M02_022", "type": "adopted", "verdict": "fix", "issue": "\"The big day\" means one specific event (usually a wedding), so it clashes with the habitual verb and with the habitual Korean line.", "fixed_en": "I wear nice clothes on special days.", "fixed_kr": "특별한 날에는 멋진 옷을 입어요.", "pick": "alternative"}
+{"id": "M02_030", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": null}
+{"id": "M02_032", "type": "adopted", "verdict": "fix", "issue": "\"It never comes back\" is translationese; natives say you can't get time back.", "fixed_en": "Don't waste your time. You can't get it back.", "fixed_kr": "시간을 낭비하지 마세요. 시간은 되돌릴 수 없어요.", "pick": null}
+{"id": "M02_039", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": null}
+{"id": "M02_045", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": null}
+{"id": "M03_001", "type": "adopted", "verdict": "fix", "issue": "\"Learn along the way\" is odd as a command; it works as a statement about the future.", "fixed_en": "Start now. You'll learn along the way.", "fixed_kr": "지금 시작하세요. 하면서 배우게 돼요.", "pick": null}
+{"id": "M03_010", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": null}
+{"id": "M03_012", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": null}
+{"id": "M03_021", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": null}
+{"id": "M03_023", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": null}
+{"id": "M03_032", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": null}
+{"id": "M03_034", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": "alternative"}
+{"id": "M03_041", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": null}
+{"id": "M03_045", "type": "adopted", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": null}
+{"id": "M01_031", "type": "alternative", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": "adopted"}
+{"id": "M02_012", "type": "alternative", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": "alternative"}
+{"id": "M02_022", "type": "alternative", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": "alternative"}
+{"id": "M03_034", "type": "alternative", "verdict": "ok", "issue": null, "fixed_en": null, "fixed_kr": null, "pick": "alternative"}
