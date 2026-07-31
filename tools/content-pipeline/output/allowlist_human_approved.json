@@ -1,0 +1,7 @@
+{
+  "description": "인간 검수에서 관용성·실용성을 이유로 승인된 어휘 — s04가 extended에 병합한다. 검수 결정의 누적 기록.",
+  "words": [
+    {"lemma": "okay", "approved_in": "c1 검수 2026-07-31", "reason": "최고빈도 일상어 — A1 사전 누락. 'Everything will be okay.'(M02_020)"},
+    {"lemma": "waste", "approved_in": "c1 검수 2026-07-31", "reason": "'Don't waste your time' 통청크 관용구 — lose(비관용)의 교정어. (M02_032)"}
+  ]
+}

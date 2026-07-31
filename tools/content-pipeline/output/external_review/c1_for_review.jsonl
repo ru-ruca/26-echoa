@@ -1,0 +1,31 @@
+{"id": "M01_001", "type": "adopted", "text_en": "Say hello and make a new friend.", "text_kr": "인사를 건네고 새 친구를 사귀어 보세요.", "function": "인사로 대화와 관계를 여는 표현"}
+{"id": "M01_011", "type": "adopted", "text_en": "Hello! I'm Sage. Music makes me happy.", "text_kr": "안녕하세요! 저는 세이지예요. 음악은 저를 행복하게 해요.", "function": "밝게 자기소개하며 좋아하는 것을 말하는 표현"}
+{"id": "M01_013", "type": "adopted", "text_en": "Keep going, and you will win.", "text_kr": "계속 나아가면 이길 수 있어요.", "function": "꾸준히 하면 이긴다는 격려"}
+{"id": "M01_022", "type": "adopted", "text_en": "Let's go and see the world!", "text_kr": "함께 세상을 보러 떠나요!", "function": "모험을 향한 의욕을 외치는 표현"}
+{"id": "M01_024", "type": "adopted", "text_en": "Finish your work first, then have fun.", "text_kr": "먼저 할 일을 끝내고, 그다음에 즐기세요.", "function": "일과 놀이의 균형을 다짐하는 표현"}
+{"id": "M01_031", "type": "adopted", "text_en": "I love my family very much.", "text_kr": "저는 가족을 정말 사랑해요.", "function": "가족의 소중함을 말하는 표현"}
+{"id": "M01_033", "type": "adopted", "text_en": "There are no wrong questions.", "text_kr": "잘못된 질문은 없어요.", "function": "질문하기를 격려하는 표현"}
+{"id": "M01_040", "type": "adopted", "text_en": "Why is my coffee cold?", "text_kr": "왜 제 커피가 차가운 거죠?", "function": "의아할 때 why로 이유를 묻는 표현"}
+{"id": "M01_041", "type": "adopted", "text_en": "Don't worry. I believe in you.", "text_kr": "걱정 마세요. 저는 당신을 믿어요.", "function": "상대의 행운을 빌어 주는 인사"}
+{"id": "M02_001", "type": "adopted", "text_en": "Wake up! It's a great day!", "text_kr": "일어나세요! 멋진 하루예요!", "function": "하루를 새로운 시작으로 맞이하는 격려"}
+{"id": "M02_010", "type": "adopted", "text_en": "Don't stop now. You can do it!", "text_kr": "지금 멈추지 마세요. 할 수 있어요!", "function": "포기하지 않고 계속하도록 응원하는 표현"}
+{"id": "M02_012", "type": "adopted", "text_en": "I like myself just the way I am.", "text_kr": "저는 있는 그대로의 제가 좋아요.", "function": "있는 그대로의 나를 긍정하는 표현"}
+{"id": "M02_020", "type": "adopted", "text_en": "Don't worry. Everything will be okay.", "text_kr": "걱정 마세요. 다 괜찮을 거예요.", "function": "걱정하지 말라고 위로하는 표현"}
+{"id": "M02_022", "type": "adopted", "text_en": "I put on nice clothes for the big day.", "text_kr": "중요한 날에는 멋진 옷을 입어요.", "function": "옷차림으로 하루를 준비하는 다짐"}
+{"id": "M02_030", "type": "adopted", "text_en": "You never know what will happen tomorrow.", "text_kr": "내일 무슨 일이 있을지는 아무도 몰라요.", "function": "인생은 예측할 수 없고 다채롭다는 비유"}
+{"id": "M02_032", "type": "adopted", "text_en": "Don't waste your time. It never comes back.", "text_kr": "시간을 낭비하지 마세요. 절대 돌아오지 않아요.", "function": "시간의 소중함을 일깨우는 표현"}
+{"id": "M02_039", "type": "adopted", "text_en": "I'm always here for you.", "text_kr": "저는 언제나 당신 곁에 있어요.", "function": "변치 않는 우정을 약속하는 표현"}
+{"id": "M02_045", "type": "adopted", "text_en": "Don't forget me!", "text_kr": "저를 잊지 마세요!", "function": "헤어질 때 나를 기억해 달라는 부탁"}
+{"id": "M03_001", "type": "adopted", "text_en": "Start now, and learn along the way.", "text_kr": "지금 시작하고, 가면서 배워요.", "function": "큰 일도 작은 한 걸음에서 시작한다는 격려"}
+{"id": "M03_010", "type": "adopted", "text_en": "Let's do something fun outside!", "text_kr": "밖에서 재미있는 걸 해 봐요!", "function": "밖으로 나가 모험을 즐기라는 설렘의 표현"}
+{"id": "M03_012", "type": "adopted", "text_en": "Take your time and look around.", "text_kr": "서두르지 말고 천천히 둘러보세요.", "function": "돌아다니는 것이 길 잃음이 아니라는 위로"}
+{"id": "M03_021", "type": "adopted", "text_en": "I'm happy when I get home.", "text_kr": "집에 돌아오면 행복해요.", "function": "집이 가장 편하고 좋다는 표현"}
+{"id": "M03_023", "type": "adopted", "text_en": "You're my home.", "text_kr": "당신이 저의 집이에요.", "function": "사랑하는 사람이 곧 집이라는 표현"}
+{"id": "M03_032", "type": "adopted", "text_en": "I call my mother every night.", "text_kr": "저는 매일 밤 어머니께 전화해요.", "function": "멀리서 집에 연락하고 싶은 그리움의 표현"}
+{"id": "M03_034", "type": "adopted", "text_en": "Something great is on the way.", "text_kr": "멋진 일이 다가오고 있어요.", "function": "더 좋은 날이 올 거라는 낙관"}
+{"id": "M03_041", "type": "adopted", "text_en": "I'll visit you again on Friday.", "text_kr": "금요일에 다시 찾아올게요.", "function": "다시 돌아오겠다고 약속하는 작별 인사"}
+{"id": "M03_045", "type": "adopted", "text_en": "Nothing can stop us today!", "text_kr": "오늘은 아무것도 우리를 막을 수 없어요!", "function": "모험을 향한 의욕을 외치는 표현"}
+{"id": "M01_031", "type": "alternative", "text_en": "My family is everything to me.", "text_kr": "가족은 저에게 전부예요.", "function": "가족의 소중함을 말하는 표현"}
+{"id": "M02_012", "type": "alternative", "text_en": "Just be yourself.", "text_kr": "있는 그대로의 당신이면 돼요.", "function": "있는 그대로의 나를 긍정하는 표현"}
+{"id": "M02_022", "type": "alternative", "text_en": "I want to look nice today.", "text_kr": "오늘은 멋져 보이고 싶어요.", "function": "옷차림으로 하루를 준비하는 다짐"}
+{"id": "M03_034", "type": "alternative", "text_en": "Something good is coming.", "text_kr": "좋은 일이 다가오고 있어요.", "function": "더 좋은 날이 올 거라는 낙관"}

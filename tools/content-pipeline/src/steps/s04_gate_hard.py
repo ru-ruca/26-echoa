@@ -9,12 +9,14 @@
 
 임계값은 시작값이며, 산출 리포트의 분포를 보고 조정한다 (23 §9).
 
-사용: uv run python -m src.steps.s04_gate_hard c1
+사용: uv run python -m src.steps.s04_gate_hard c1 [입력.jsonl 출력.jsonl]
+     (기본: data/work/c1_candidates.jsonl → data/work/c1_candidates_gated.jsonl)
 """
 from __future__ import annotations
 
 import json
 import sys
+from pathlib import Path
 from statistics import mean
 
 from src.lib.jsonl import WORK_DIR, read_jsonl, write_jsonl
@@ -35,6 +37,11 @@ def load_allowlist() -> tuple[set[str], set[str]]:
     data = json.loads((WORK_DIR / "allowlist_m01_03.json").read_text(encoding="utf-8"))
     core = set(data["core"])
     extended = core | set(data["extended_extra"])
+    # 인간 검수에서 승인된 어휘(누적) — 검수가 최종 게이트라는 원칙의 반영
+    approved_file = WORK_DIR.parents[1] / "output" / "allowlist_human_approved.json"
+    if approved_file.exists():
+        approved = json.loads(approved_file.read_text(encoding="utf-8"))
+        extended |= {w["lemma"] for w in approved["words"]}
     return core, extended
 
 
@@ -79,12 +86,15 @@ def check_c1(cand: dict, seed_text: str, db_rows: list[dict], passed_texts: list
     }
 
 
-def main(mode: str = "c1") -> None:
+def main(mode: str = "c1", in_path: str | None = None, out_path: str | None = None) -> None:
     if mode != "c1":
         raise SystemExit(f"mode '{mode}'는 아직 미구현 — Phase 2에서 c2 추가")
 
+    src = Path(in_path) if in_path else WORK_DIR / "c1_candidates.jsonl"
+    dst = Path(out_path) if out_path else WORK_DIR / "c1_candidates_gated.jsonl"
+
     seeds = {s["id"]: s for s in read_jsonl(WORK_DIR / "seeds_m01_03.jsonl")}
-    candidates = read_jsonl(WORK_DIR / "c1_candidates.jsonl")
+    candidates = read_jsonl(src)
     core, extended = load_allowlist()
     # 자기 씨앗은 seed_sim이 담당하므로 DB 중복 검사에서 제외
     db_all = read_jsonl(WORK_DIR / "sentences_all.jsonl")
@@ -99,7 +109,7 @@ def main(mode: str = "c1") -> None:
             passed_texts.append(cand["text_en"])
         results.append(cand | {"gate": gate})
 
-    write_jsonl(WORK_DIR / "c1_candidates_gated.jsonl", results)
+    write_jsonl(dst, results)
 
     n_pass = sum(1 for r in results if r["gate"]["pass"])
     seed_ratios = [r["gate"]["seed_sim"]["ratio"] for r in results]
@@ -118,4 +128,8 @@ def main(mode: str = "c1") -> None:
 
 
 if __name__ == "__main__":
-    main(sys.argv[1] if len(sys.argv) > 1 else "c1")
+    main(
+        sys.argv[1] if len(sys.argv) > 1 else "c1",
+        sys.argv[2] if len(sys.argv) > 2 else None,
+        sys.argv[3] if len(sys.argv) > 3 else None,
+    )
