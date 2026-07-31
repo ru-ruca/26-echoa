@@ -82,6 +82,10 @@ def main() -> None:
     )
     sentence_words = [dict(r) for r in cur.fetchall()]
 
+    # 근접 중복 검사(s04)용 — 생성물이 기존 커리큘럼 전체와 겹치지 않아야 한다
+    cur.execute("SELECT id, text_en FROM sentences ORDER BY id")
+    all_sentences = [dict(r) for r in cur.fetchall()]
+
     cur.close()
     conn.close()
 
@@ -89,12 +93,14 @@ def main() -> None:
     n_vocab = write_jsonl(WORK_DIR / "vocabulary.jsonl", vocab)
     n_sources = write_jsonl(WORK_DIR / "sources.jsonl", sources)
     n_sw = write_jsonl(WORK_DIR / "sentence_words.jsonl", sentence_words)
+    n_all = write_jsonl(WORK_DIR / "sentences_all.jsonl", all_sentences)
 
     dist = Counter(s["seed_class"] for s in seeds)
     print(f"seeds_m01_03.jsonl    {n_seeds}행  {dict(dist)}")
     print(f"vocabulary.jsonl      {n_vocab}행")
     print(f"sources.jsonl         {n_sources}행")
     print(f"sentence_words.jsonl  {n_sw}행")
+    print(f"sentences_all.jsonl   {n_all}행")
 
     expected = {"c1_rewrite": 27, "c2_seed": 118, "c3_reference": 60, "excluded_review": 24}
     if dict(dist) != expected:
