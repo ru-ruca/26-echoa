@@ -25,6 +25,18 @@
 11. 콜로케이션 추가: `no bad questions`(wrong ✗) · `the big day`는 특정 행사(결혼식 등) 한정 — 습관문과 충돌.
 12. **명령형이 어색한 동사구는 서술형으로** — "learn along the way"는 명령이 아니라 "You'll learn along the way."
 
+## C-2 씨앗 적격성 규칙 (2026-08-04 실측 — proverb 2.92 vs real 4.25)
+
+substitution drill은 **일상 발화 문형**에만 적용한다. 아래 씨앗은 C-2 대상에서 **제외**:
+
+13. **속담·격언** — 슬롯을 치환하면 "지어낸 격언"이 되어 실제 발화 상황이 사라진다 (A friend in need → A doctor in need).
+14. **고유명사가 의미를 지탱하는 문장** — All roads lead to **Rome**. 일반명사 치환이 성립하지 않는다.
+15. **화석화된 관용구** — happily ever after, raining cats and dogs. 슬롯화하면 정작 그 관용구를 못 가르친다.
+16. **고정부가 A1을 넘는 씨앗** — 비교급(speak louder)·최상급(the best time)·자유관계절. 고정부는 못 고치므로 변형 전량이 A1을 이탈한다.
+17. **서사체 도치·인용문** — "…," said the Ant. 인용부호 표기가 씨앗에서 상속되고 대화 재사용성이 낮다.
+
+제외된 씨앗은 통청크 암기 자산으로 그대로 쓰거나 C-3 대화에서 문맥과 함께 제시한다.
+
 ## judge v2 반영 사항 (judge 1위 ≠ 인간 채택 4건의 원인)
 
 - **실제 발화 빈도(관용성)** 가중이 부족했다 — naturalness에 "원어민이 이 조합을 실제로 쓰는가"를 명시.
