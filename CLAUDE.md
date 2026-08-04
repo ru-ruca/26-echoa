@@ -56,8 +56,10 @@
 - [x] 콘텐츠 확장 조사(C-2/C-3) → [23 spec](docs/project-review/23_content-pipeline-spec.md)
 - [x] 콘텐츠 파이프라인 파일럿 착수(D-26·D-27) — Phase 0 완료: 추출·허용 어휘·baseline 실측 → [tools/content-pipeline/](tools/content-pipeline/README.md)
 - [x] 파일럿 Phase 1(C-1 재작성 27개) **완료** — 인간 검수 100% 채택(수정 11), 23 §5 전 기준 충족. 확정본 [output/c1_adopted.jsonl](tools/content-pipeline/output/c1_adopted.jsonl), [지표](tools/content-pipeline/reports/04_c1_pilot_metrics.md), 교훈 [style_lessons](tools/content-pipeline/prompts/style_lessons.md)
-- [ ] (선택) C-1 외부 AI 교차 검토 — [output/external_review/](tools/content-pipeline/output/external_review/) 패키지 전달 → `c1_external_verdict.jsonl`로 회수
-- [ ] 다음: Phase 2(C-2 패턴 문장, 씨앗 145) → Phase 3(C-3 대화) → 기준 통과 시 C-1 341 확대
+- [x] C-1 외부 AI 교차 검토 반영 — 최종본 [output/c1_final.jsonl](tools/content-pipeline/output/c1_final.jsonl) (유지 19·외부수정 5·대안교체 3)
+- [x] 파일럿 Phase 2(C-2 패턴 문장, 씨앗 145×6=870) 생성·게이트·채점 완료 — 게이트 738 통과(패턴파괴 0), judge 전체 3.95 / **적격 씨앗분 4.15**. [지표](tools/content-pipeline/reports/05_c2_pilot_metrics.md)
+- [ ] **다음: C-2 인간 검수** — [reports/c2_review_sheet.md](tools/content-pipeline/reports/c2_review_sheet.md) 208건에 판정 표기
+- [ ] 이후: 부적격 씨앗 24개 처리 결정 → Phase 3(C-3 대화) → 기준 통과 시 C-1 341 확대
 - [ ] 이후: 모노레포 스캐폴딩(21 단계1)
 
 ## Git
