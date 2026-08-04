@@ -1,0 +1,56 @@
+{
+ "note": "C-2 씨앗결함 — 고정부 자체의 결함이라 변형 수정으로 해결되지 않는다. alt가 있으면 씨앗 교체 후 재생성, 없으면 C-2에서 폐기(통청크 자산으로 유지).",
+ "reviewed_at": "2026-08-04",
+ "seeds": {
+  "M01_003": {
+   "reason": "고정부 'ran across'는 사람을 우연히 만나는 뜻으로 쓰지 않음(관용은 run into)",
+   "alt": "One day, I ran into an old friend."
+  },
+  "M01_005": {
+   "reason": "고정부에 인용부호가 없어 모든 변형이 같은 표기 오류를 물려받음",
+   "alt": "\"Please let me go!\" cried the Mouse."
+  },
+  "M01_012": {
+   "reason": "속담 고정부의 단순현재가 일회성 사건 슬롯과 항상 충돌",
+   "alt": ""
+  },
+  "M01_016": {
+   "reason": "고정부에 인용부호가 없어 모든 변형이 같은 표기 오류를 물려받음",
+   "alt": "\"Let's have a race!\" said the Tortoise."
+  },
+  "M01_031": {
+   "reason": "고정부 'very much'가 사물·장소 목적어와 결합하지 않아 사람 이외의 슬롯 값 전체가 번역투가 됨",
+   "alt": "I really like my job."
+  },
+  "M02_006": {
+   "reason": "두 문장 모두 'This one'이라 대조가 성립하지 않는 지시 결함",
+   "alt": "That one is too cold. This one is just right!"
+  },
+  "M03_011": {
+   "reason": "관용구 'cats and dogs'를 슬롯으로 취급해 어떤 값을 넣어도 관용구가 깨지고 진행 고정부와 시제가 충돌",
+   "alt": ""
+  },
+  "M03_045": {
+   "reason": "[TIME] 슬롯이 관용구의 즉시성 때문에 today/now만 허용해 치환이 사실상 불가능",
+   "alt": "Nothing can stop us today!"
+  }
+ },
+ "resolution": {
+  "resolved_at": "2026-08-04",
+  "replaced_and_adopted": {
+   "M01_003": 3.94,
+   "M01_031": 4.72,
+   "M02_006": 4.0,
+   "M03_045": 3.78
+  },
+  "replaced_but_dropped": {
+   "M01_005": 2.56,
+   "M01_016": 3.5
+  },
+  "dropped_no_alternative": [
+   "M01_012",
+   "M03_011"
+  ],
+  "note": "M01_005·M01_016은 대안 씨앗으로 인용부호를 고쳤으나 서사체 인용문 자체가 C-2 부적격(style_lessons §17)이라 재생성 후에도 기준 미달 — 폐기 확정."
+ }
+}

@@ -1,8 +1,96 @@
 {
-  "description": "인간 검수에서 관용성·실용성을 이유로 승인된 어휘 — s04가 extended에 병합한다. 검수 결정의 누적 기록.",
-  "words": [
-    {"lemma": "okay", "approved_in": "c1 검수 2026-07-31", "reason": "최고빈도 일상어 — A1 사전 누락. 'Everything will be okay.'(M02_020)"},
-    {"lemma": "waste", "approved_in": "c1 검수 2026-07-31", "reason": "'Don't waste your time' 통청크 관용구 — lose(비관용)의 교정어. (M02_032)"},
-    {"lemma": "luck", "approved_in": "c1 외부 검토 2026-07-31", "reason": "'Good luck'은 행운 기원 최빈 표현 — 씨앗(M01_041) 기능 정합을 위해 외부 검토가 도입"}
-  ]
+ "description": "인간 검수에서 관용성·실용성을 이유로 승인된 어휘 — s04가 extended에 병합한다. 검수 결정의 누적 기록.",
+ "words": [
+  {
+   "lemma": "okay",
+   "approved_in": "c1 검수 2026-07-31",
+   "reason": "최고빈도 일상어 — A1 사전 누락. 'Everything will be okay.'(M02_020)"
+  },
+  {
+   "lemma": "waste",
+   "approved_in": "c1 검수 2026-07-31",
+   "reason": "'Don't waste your time' 통청크 관용구 — lose(비관용)의 교정어. (M02_032)"
+  },
+  {
+   "lemma": "luck",
+   "approved_in": "c1 외부 검토 2026-07-31",
+   "reason": "'Good luck'은 행운 기원 최빈 표현 — 씨앗(M01_041) 기능 정합을 위해 외부 검토가 도입"
+  },
+  {
+   "lemma": "water",
+   "approved_in": "c2 검수 v2 2026-08-04",
+   "reason": "A1 일상어 — 사전 누락분. 외부 검수 어휘승인요청"
+  },
+  {
+   "lemma": "tell",
+   "approved_in": "c2 검수 v2 2026-08-04",
+   "reason": "A1 일상어 — 사전 누락분. 외부 검수 어휘승인요청"
+  },
+  {
+   "lemma": "table",
+   "approved_in": "c2 검수 v2 2026-08-04",
+   "reason": "A1 일상어 — 사전 누락분. 외부 검수 어휘승인요청"
+  },
+  {
+   "lemma": "spring",
+   "approved_in": "c2 검수 v2 2026-08-04",
+   "reason": "A1 일상어 — 사전 누락분. 외부 검수 어휘승인요청"
+  },
+  {
+   "lemma": "king",
+   "approved_in": "c2 검수 v2 2026-08-04",
+   "reason": "A1 일상어 — 사전 누락분. 외부 검수 어휘승인요청"
+  },
+  {
+   "lemma": "homework",
+   "approved_in": "c2 검수 v2 2026-08-04",
+   "reason": "A1 일상어 — 사전 누락분. 외부 검수 어휘승인요청"
+  },
+  {
+   "lemma": "glass",
+   "approved_in": "c2 검수 v2 2026-08-04",
+   "reason": "A1 일상어 — 사전 누락분. 외부 검수 어휘승인요청"
+  },
+  {
+   "lemma": "color",
+   "approved_in": "c2 검수 v2 2026-08-04",
+   "reason": "A1 일상어 — 사전 누락분. 외부 검수 어휘승인요청"
+  },
+  {
+   "lemma": "coat",
+   "approved_in": "c2 검수 v2 2026-08-04",
+   "reason": "A1 일상어 — 사전 누락분. 외부 검수 어휘승인요청"
+  },
+  {
+   "lemma": "blue",
+   "approved_in": "c2 검수 v2 2026-08-04",
+   "reason": "A1 일상어 — 사전 누락분. 외부 검수 어휘승인요청"
+  },
+  {
+   "lemma": "young",
+   "approved_in": "c2 검수 v2 2026-08-04",
+   "reason": "A1 일상어 — 사전 누락분. 외부 검수 어휘승인요청"
+  },
+  {
+   "lemma": "hero",
+   "approved_in": "c2 검수 v2 2026-08-04",
+   "reason": "A1 일상어 — 사전 누락분. 외부 검수 어휘승인요청"
+  },
+  {
+   "lemma": "hallway",
+   "approved_in": "c2 검수 v2 2026-08-04",
+   "reason": "A1 일상어 — 사전 누락분. 외부 검수 어휘승인요청"
+  },
+  {
+   "lemma": "fishbowl",
+   "approved_in": "c2 검수 v2 2026-08-04",
+   "reason": "A1 일상어 — 사전 누락분. 외부 검수 어휘승인요청"
+  }
+ ],
+ "held": [
+  {
+   "lemma": "better",
+   "reason": "비교급 — A1 문법 상한(style_lessons §6). 승인 시 변형 전량이 A1 이탈 위험"
+  }
+ ]
 }

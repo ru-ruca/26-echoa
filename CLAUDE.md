@@ -58,8 +58,9 @@
 - [x] 파일럿 Phase 1(C-1 재작성 27개) **완료** — 인간 검수 100% 채택(수정 11), 23 §5 전 기준 충족. 확정본 [output/c1_adopted.jsonl](tools/content-pipeline/output/c1_adopted.jsonl), [지표](tools/content-pipeline/reports/04_c1_pilot_metrics.md), 교훈 [style_lessons](tools/content-pipeline/prompts/style_lessons.md)
 - [x] C-1 외부 AI 교차 검토 반영 — 최종본 [output/c1_final.jsonl](tools/content-pipeline/output/c1_final.jsonl) (유지 19·외부수정 5·대안교체 3)
 - [x] 파일럿 Phase 2(C-2 패턴 문장, 씨앗 145×6=870) 생성·게이트·채점 완료 — 게이트 738 통과(패턴파괴 0), judge 전체 3.95 / **적격 씨앗분 4.15**. [지표](tools/content-pipeline/reports/05_c2_pilot_metrics.md)
-- [ ] **다음: C-2 인간 검수** — [reports/c2_review_sheet.md](tools/content-pipeline/reports/c2_review_sheet.md) 208건에 판정 표기
-- [ ] 이후: 부적격 씨앗 24개 처리 결정 → Phase 3(C-3 대화) → 기준 통과 시 C-1 341 확대
+- [x] C-2 인간 검수·씨앗결함 처리 완료 — 확정본 [output/c2_final.jsonl](tools/content-pipeline/output/c2_final.jsonl) **528건/씨앗 116개**, 23 §5 조건부 통과. [최종 요약](tools/content-pipeline/reports/07_c2_final_summary.md)
+- [ ] **다음: Phase 3 (C-3 대화)** — 씨앗을 학습자 발화로 두고 앞뒤 턴 생성(2~6턴), 기존 `day_type='conversation'` 스키마 적재 검증
+- [ ] 이후: C-1 341 확대 → A1 어휘 목록 보강 → 월 단위 확대
 - [ ] 이후: 모노레포 스캐폴딩(21 단계1)
 
 ## Git
