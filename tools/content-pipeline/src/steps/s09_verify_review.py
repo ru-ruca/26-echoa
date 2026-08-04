@@ -25,7 +25,9 @@ from src.steps.s04_gate_hard import contains_in_order, fixed_segments, load_allo
 SEED_HEADER = re.compile(r"^## (\w+) \(")
 PATTERN_LINE = re.compile(r"^- 패턴: `(.+)`")
 ROW = re.compile(r"^\| (\d+) \| (.+?) \| (.+?) \| (.+?) \| (.+?) \| (.*?) \|$")
-FIX_EN = re.compile(r"수정:\s*(.+?)(?:\s*/\s*KR:|$)")
+FIX_EN = re.compile(r"수정:\s*(.+?)(?:\s*/\s*KR:|\s*\[어휘승인요청|$)")
+SEED_ALT = re.compile(r"대안 씨앗:\s*(.+?)\s*$")
+VOCAB_REQ = re.compile(r"\[어휘승인요청:\s*([^\]]+)\]")
 
 
 def parse(path: Path) -> list[dict]:
@@ -49,14 +51,12 @@ def parse(path: Path) -> list[dict]:
 
 
 def classify(verdict: str) -> str:
+    """v1(합격·수정·불합격)과 v2(씨앗결함·수정(KR만) 추가) 양쪽을 인식한다."""
     if not verdict:
         return "미판정"
-    if verdict.startswith("수정"):
-        return "수정"
-    if verdict.startswith("불합격"):
-        return "불합격"
-    if verdict.startswith("합격"):
-        return "합격"
+    for prefix in ("씨앗결함", "수정(KR만)", "수정", "불합격", "합격"):
+        if verdict.startswith(prefix):
+            return prefix
     return "기타"
 
 
@@ -97,6 +97,28 @@ def main(sheet: str) -> None:
 
     dist = Counter(classify(r["verdict_raw"]) for r in rows)
     sample_dist, low_dist = sample_split(rows)
+
+    # v2 산출물: 씨앗결함 판정과 어휘 승인 요청
+    seed_defects: dict[str, dict] = {}
+    for r in rows:
+        if classify(r["verdict_raw"]) != "씨앗결함":
+            continue
+        d = seed_defects.setdefault(r["seed_id"], {"rows": 0, "reason": "", "alt": ""})
+        d["rows"] += 1
+        reason = r["verdict_raw"].removeprefix("씨앗결함").lstrip("— ").split(" / 대안 씨앗:")[0]
+        d["reason"] = d["reason"] or reason.strip()
+        if m := SEED_ALT.search(r["verdict_raw"]):
+            d["alt"] = d["alt"] or m.group(1).strip()
+    vocab_requests = Counter(
+        w.strip() for r in rows for w in VOCAB_REQ.findall(r["verdict_raw"])
+    )
+    # 씨앗결함이 그 씨앗의 전 행에 표기됐는가 (프롬프트 v2 요구사항)
+    rows_per_seed = Counter(r["seed_id"] for r in rows)
+    partial_defects = [
+        (sid, d["rows"], rows_per_seed[sid])
+        for sid, d in seed_defects.items()
+        if d["rows"] != rows_per_seed[sid]
+    ]
     broken, vocab_bad, unparsed = [], [], []
     per_seed_fix = defaultdict(list)
 
@@ -171,6 +193,26 @@ def main(sheet: str) -> None:
         f"## 수정안 파싱 실패 {len(unparsed)}건",
         "",
         *[f"- {r['seed_id']} c{r['cand']}: `{r['verdict_raw'][:80]}`" for r in unparsed],
+        "",
+        f"## 씨앗결함 판정 {len(seed_defects)}개 씨앗 (v2)",
+        "",
+        "검수자가 '고정부 자체가 문제'로 판정한 씨앗. 변형 수정으로 해결되지 않아 씨앗 교체·폐기 대상.",
+        "",
+        "| 씨앗 | 표기 행 | 씨앗 원문 | 사유 | 대안 씨앗 |",
+        "|---|---|---|---|---|",
+        *[
+            f"| {sid} | {d['rows']}/{rows_per_seed[sid]} | {seeds[sid]['text_en']} | {d['reason']} | {d['alt'] or '—'} |"
+            for sid, d in sorted(seed_defects.items())
+        ],
+        "",
+        f"부분 표기(일부 행에만 씨앗결함) **{len(partial_defects)}건** — v2 규칙은 전 행 표기를 요구한다."
+        + (f" {partial_defects}" if partial_defects else ""),
+        "",
+        f"## 어휘 승인 요청 {len(vocab_requests)}건 (v2)",
+        "",
+        "| 단어 | 요청 횟수 |",
+        "|---|---|",
+        *[f"| {w} | {n} |" for w, n in vocab_requests.most_common()],
         "",
     ]
     out = REPORTS_DIR / "06_c2_review_verification.md"
