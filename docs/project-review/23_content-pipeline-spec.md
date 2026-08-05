@@ -67,6 +67,14 @@ B: Sometimes, but I get used to it.       ← 이어짐(생성)
 - overgenerate → 응집성·난이도 judge로 재랭킹.
 
 **적재**: 기존 `day_type='conversation'` 스키마와 쉐도잉 자산(speaker·dialogue_title·순차 재생)에 그대로 들어가는지 검증 — 새 스키마를 만들지 않는다.
+→ **2026-08-05 검증 완료**: 대화 50개 = 200행이 기존 스키마에 그대로 매핑(id·dialogue_id 충돌 0, 필수 필드 충족, 스키마 외 필드 0).
+대화 번호는 101~로 발번해 기존 DLG_M01_001·002와 분리. [preview](../../tools/content-pipeline/output/c3_rows_preview.jsonl)
+
+**씨앗 적격성 (2026-08-05 대조 실험)**: C-2 부적격 씨앗의 C-3 이관 가능성을 A군(일상발화 22) vs B군(C-2부적격 28)으로 검증했다.
+**속담은 C-3로 살아나고(seed_fit 75%), 동화·서사체는 C-3에서도 살아나지 않는다(10%)** — 상황 설정이 낭독 프레임으로
+도망가 학습자의 실제 발화가 되지 못한다. 규칙은 [style_lessons §18~19](../../tools/content-pipeline/prompts/style_lessons.md),
+실측은 [08 리포트](../../tools/content-pipeline/reports/08_c3_pilot_metrics.md).
+**마지막 턴 A1 유지는 50/50 달성** — 4턴 상한과 length_creep 게이트가 유효했다.
 
 ## 4. 검수 게이트 (2단 자동 + 인간 샘플)
 

@@ -166,12 +166,157 @@ def report_c2() -> None:
     print(f"reports/c2_review_sheet.md — 검수 대상 {len(sample)}건 (저점 {len(low)} + 샘플 {len(sample) - len(low)})")
 
 
+def report_c3() -> None:
+    """C-3 리포트 — 23 §5 기준 + style_lessons §17 가설(C-2 부적격 씨앗의 C-3 이관) 판정."""
+    seeds = {s["id"]: s for s in read_jsonl(WORK_DIR / "c3_seeds.jsonl")}
+    gated = {d["seed_id"]: d for d in read_jsonl(WORK_DIR / "c3_candidates_gated.jsonl")}
+    judged = {j["seed_id"]: j for j in read_jsonl(WORK_DIR / "c3_judged.jsonl")}
+
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    avgs = [j["avg"] for j in judged.values()]
+    last_ok = sum(1 for j in judged.values() if j["last_turn_a1_ok"])
+    flags = sum(1 for j in judged.values() if not (j["grammar_ok"] and j["kr_ok"]))
+
+    groups: dict[str, list[dict]] = {}
+    for sid, j in judged.items():
+        groups.setdefault(seeds[sid]["group"], []).append(j)
+    grp_rows = [
+        (
+            g,
+            len(v),
+            mean(x["avg"] for x in v),
+            sum(1 for x in v if x["seed_fit"]) / len(v),
+            sum(1 for x in v if x["last_turn_a1_ok"]) / len(v),
+        )
+        for g, v in sorted(groups.items())
+    ]
+    unfit = sorted(
+        (sid for sid, j in judged.items() if not j["seed_fit"]),
+        key=lambda s: judged[s]["avg"],
+    )
+    worst = sorted(judged.values(), key=lambda j: j["avg"])[:10]
+
+    a_fit = next((r[3] for r in grp_rows if r[0] == "A_daily"), 0)
+    b_fit = next((r[3] for r in grp_rows if r[0] == "B_c2_ineligible"), 0)
+
+    # B군을 계열별로 쪼개야 "무엇이 살아나는가"가 보인다 — 전체 비율은 서로 다른 계열의 평균이라 오해를 부른다
+    b_by_type: dict[str, list[str]] = {}
+    for sid, j in judged.items():
+        if seeds[sid]["group"] == "B_c2_ineligible":
+            b_by_type.setdefault(seeds[sid]["day_type"], []).append(sid)
+    b_type_rows = sorted(
+        (
+            (dt, len(v), sum(judged[s]["seed_fit"] for s in v) / len(v), mean(judged[s]["avg"] for s in v))
+            for dt, v in b_by_type.items()
+        ),
+        key=lambda r: -r[2],
+    )
+    rescued = [dt for dt, _n, f, _a in b_type_rows if f >= 0.7]
+    dead = [dt for dt, _n, f, _a in b_type_rows if f < 0.4]
+    verdict = (
+        f"**계열에 따라 갈린다** — {'·'.join(rescued)}는 C-3로 살아나고, {'·'.join(dead)}는 문맥을 붙여도 살아나지 않는다"
+        if rescued and dead
+        else "가설 성립 — C-2 부적격 씨앗도 문맥을 붙이면 쓸 수 있다"
+        if b_fit >= 0.7
+        else "**가설 기각** — 문맥을 붙여도 살아나지 않는다"
+    )
+
+    metrics = f"""# s06 — C-3 파일럿 지표 리포트 (대화 {len(judged)}개)
+
+생성: {now} · 게이트: s04b(c3) · judge: judge_c3_v1
+
+## 23 §5 기준 대비
+
+| 지표 | 기준 | 실측 | 판정 |
+|---|---|---|---|
+| judge 평균 | ≥ {JUDGE_TARGET}/5 | {mean(avgs):.2f} | {"통과" if mean(avgs) >= JUDGE_TARGET else "미달"} |
+| **C-3 마지막 턴 CEFR 유지** | 유지 | {last_ok}/{len(judged)} ({last_ok / len(judged):.0%}) | {"통과" if last_ok == len(judged) else "일부 미달"} |
+| 근접 중복 | < 2% | 게이트 통과분 0% | 통과 |
+| 씨앗 보존(원문 그대로) | 필수 | 게이트 100% | 통과 |
+| 인간 검수 합격률 | ≥ 90% | 검수 시트 회수 후 판정 | 대기 |
+
+- 대화 {len(gated)}개 전량 게이트 통과 (턴 구조·씨앗 보존·난이도 상승·어휘)
+- judge avg 분포: ≥4.5 {sum(1 for a in avgs if a >= 4.5)} · 4.0~4.5 {sum(1 for a in avgs if 4.0 <= a < 4.5)} · <4.0 {sum(1 for a in avgs if a < 4.0)} · 플래그 {flags}건
+- **스키마 적재 검증 통과** — 기존 `day_type='conversation'` 스키마에 그대로 매핑 (23 §3 "새 스키마를 만들지 않는다"). [preview](../output/c3_rows_preview.jsonl)
+
+## style_lessons §17 가설 판정 — C-2 부적격 씨앗을 C-3으로 이관할 수 있는가
+
+§17은 "속담·서사체는 C-2에서 제외하되 C-3 대화에서 문맥과 함께 제시한다"고 적었다.
+이 파일럿은 그 대조 실험이다: **A_daily**(일상 발화 씨앗) vs **B_c2_ineligible**(C-2 부적격 씨앗).
+
+| 그룹 | 대화 | judge 평균 | **seed_fit 비율** | 마지막 턴 A1 |
+|---|---|---|---|---|
+{chr(10).join(f"| {g} | {n} | {a:.2f} | **{f:.0%}** | {l:.0%} |" for g, n, a, f, l in grp_rows)}
+
+**판정: {verdict}**
+
+A군 seed_fit {a_fit:.0%} vs B군 {b_fit:.0%}. 다만 B군 전체 비율은 서로 다른 계열의 평균이라 오해를 부른다 — 쪼개면 이렇다:
+
+| B군 계열 | 씨앗 | **seed_fit** | judge 평균 |
+|---|---|---|---|
+{chr(10).join(f"| {dt} | {n} | **{f:.0%}** | {a:.2f} |" for dt, n, f, a in b_type_rows)}
+
+`seed_fit=false`인 씨앗 {len(unfit)}개 — 문맥을 붙여도 학습자가 실제로 말할 상황이 안 그려진 것:
+
+| 씨앗 | 그룹 | 계열 | avg | 씨앗 원문 |
+|---|---|---|---|---|
+{chr(10).join(f"| {sid} | {seeds[sid]['group']} | {seeds[sid]['day_type']} | {judged[sid]['avg']} | {seeds[sid]['text_en']} |" for sid in unfit)}
+
+## judge 평균 최하위 10개
+
+| 씨앗 | 그룹 | avg | 코멘트 |
+|---|---|---|---|
+{chr(10).join(f"| {j['seed_id']} | {seeds[j['seed_id']]['group']} | {j['avg']} | {j.get('comment', '')} |" for j in worst)}
+"""
+    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    (REPORTS_DIR / "08_c3_pilot_metrics.md").write_text(metrics, encoding="utf-8")
+
+    # 검수 시트 — 대화 단위라 전량(50개) 검수 가능
+    lines = [
+        "# C-3 대화 인간 검수 시트 (전량 50개)",
+        "",
+        f"생성: {now}",
+        "",
+        "대화 단위로 판정: `합격` / `수정: <고칠 턴 번호와 문장>` / `불합격 — 사유` 를 각 대화의 `검수` 줄에 표기.",
+        "특히 **마지막 턴이 앞 턴보다 어려워지지 않았는지**와 **씨앗을 실제로 그 상황에서 말할지**를 봐 주세요.",
+        "",
+    ]
+    for sid in sorted(judged, key=lambda s: (seeds[s]["group"], judged[s]["avg"])):
+        d, j, s = gated[sid], judged[sid], seeds[sid]
+        fit = "" if j["seed_fit"] else " ⚠️씨앗부적합"
+        a1 = "" if j["last_turn_a1_ok"] else " ⚠️마지막턴A1이탈"
+        lines += [
+            f"## {sid} ({s['group']}, {s['day_type']}) — judge {j['avg']}{fit}{a1}",
+            f"- 씨앗: **{s['text_en']}** (turn {d['seed_turn']})",
+            f"- 상황: {d['situation']} · 제목: {d['title']}",
+            f"- judge: {j.get('comment', '')}",
+            "",
+            "| # | 화자 | 영어 | 한국어 |",
+            "|---|---|---|---|",
+            *[
+                f"| {i} | {t['speaker']} | {'**' + t['text_en'] + '**' if i == d['seed_turn'] else t['text_en']} | {t['text_kr']} |"
+                for i, t in enumerate(d["turns"], 1)
+            ],
+            "",
+            "- 검수: ",
+            "",
+        ]
+    (REPORTS_DIR / "c3_review_sheet.md").write_text("\n".join(lines), encoding="utf-8")
+
+    print(f"reports/08_c3_pilot_metrics.md — judge 평균 {mean(avgs):.2f}, 마지막턴 A1 {last_ok}/{len(judged)}")
+    print(f"  §17 가설: A군 seed_fit {a_fit:.0%} vs B군 {b_fit:.0%} → {verdict}")
+    print(f"reports/c3_review_sheet.md — 전량 {len(judged)}개")
+
+
 def main(mode: str = "c1") -> None:
     if mode == "c2":
         report_c2()
         return
+    if mode == "c3":
+        report_c3()
+        return
     if mode != "c1":
-        raise SystemExit(f"mode '{mode}' 미지원 (c1|c2)")
+        raise SystemExit(f"mode '{mode}' 미지원 (c1|c2|c3)")
 
     seeds = {s["id"]: s for s in read_jsonl(WORK_DIR / "seeds_m01_03.jsonl")}
     gated = read_jsonl(WORK_DIR / "c1_candidates_gated.jsonl")
