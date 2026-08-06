@@ -1,6 +1,7 @@
 # Echoa 콘텐츠 생성 파이프라인 Spec (C-2 패턴 문장 · C-3 대화)
 
-> **Status**: 파일럿 진행 중 — Phase 0(추출·허용 어휘) 완료 2026-07-30. **구현·진행 상태: [tools/content-pipeline/](../../tools/content-pipeline/README.md)**
+> **Status**: **파일럿 완료(2026-08-06) — 조건부 통과.** C-1 27 · C-2 528 · C-3 37대화(148행) 확정.
+> **종합 판정: [11_pilot_conclusion.md](../../tools/content-pipeline/reports/11_pilot_conclusion.md)** · 구현: [tools/content-pipeline/](../../tools/content-pipeline/README.md)
 > **작성일**: 2026-07-28
 > **근거 조사**: [docs/research/2026-07_content-expansion-research.md](../research/2026-07_content-expansion-research.md) (출처 URL·미확인 항목 포함)
 > **상위 spec**: [22 학습설계·UI/UX §8 콘텐츠 확장 백로그](22_learning-design-spec.md) · **제약**: [ADR-010 저작권·데이터모델](../adr/010_content-copyright-and-data-model.md)
