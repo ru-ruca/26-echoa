@@ -29,6 +29,32 @@ from src.lib.textproc import content_lemmas
 OUTPUT_DIR = Path(__file__).resolve().parents[2] / "output"
 
 
+def build_level_allowlists() -> dict:
+    """CEFR 레벨별 허용 어휘 — 연차와 CEFR이 1:1이라(year1=A1 … year4=B2) 누적으로 쌓는다.
+
+    A2 학습자는 A1에서 배운 것도 아니까 상위 레벨은 하위를 포함한다.
+    C-1 재작성 대상이 A1~B2에 걸쳐 있어 레벨별 목록이 없으면 게이트가 정상 어휘를 대량 탈락시킨다.
+    """
+    sentences = read_jsonl(WORK_DIR / "sentences_by_level.jsonl")
+    vocab = read_jsonl(WORK_DIR / "vocabulary.jsonl")
+
+    by_level: dict[str, set[str]] = {}
+    for s in sentences:
+        by_level.setdefault(s["cefr_level"], set()).update(content_lemmas(s["text_en"]))
+    dict_by_level: dict[str, set[str]] = {}
+    for v in vocab:
+        if v.get("word") and v.get("cefr_level"):
+            dict_by_level.setdefault(v["cefr_level"], set()).add(v["word"].strip().lower())
+
+    order = ["A1", "A2", "B1", "B2"]
+    cumulative: set[str] = set()
+    out = {}
+    for lv in order:
+        cumulative |= by_level.get(lv, set()) | dict_by_level.get(lv, set())
+        out[lv] = sorted(cumulative)
+    return out
+
+
 def main() -> None:
     base = json.loads((WORK_DIR / "allowlist_m01_03.json").read_text(encoding="utf-8"))
     core = set(base["core"])
@@ -137,8 +163,26 @@ year1(M01~12) 커리큘럼 **904문장이 전부 `cefr_level='A1'`** 이다.
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     (REPORTS_DIR / "12_allowlist_expansion.md").write_text(report, encoding="utf-8")
 
+    levels = build_level_allowlists()
+    (OUTPUT_DIR / "allowlist_by_level.json").write_text(
+        json.dumps(
+            {
+                "note": "CEFR 레벨별 허용 어휘(누적). 연차와 CEFR이 1:1(year1=A1 … year4=B2)이라 "
+                "해당 연차까지의 커리큘럼 실등장 어휘 + 사전 어휘를 쌓는다. "
+                "상위 레벨은 하위를 포함한다(A2 학습자는 A1 어휘도 안다).",
+                "generated_at": payload["generated_at"],
+                "sizes": {k: len(v) for k, v in levels.items()},
+                "lemmas": levels,
+            },
+            ensure_ascii=False,
+            indent=1,
+        ),
+        encoding="utf-8",
+    )
+
     print(f"output/allowlist_a1_expanded.json  신규 {len(new)}개 (합계 {len(before)} → {len(after)})")
     print(f"C-2 어휘 탈락 {len(vocab_failed)}건 중 {len(recovered)}건 회수 가능 ({len(recovered) / max(1, len(vocab_failed)):.0%})")
+    print(f"output/allowlist_by_level.json  레벨별 누적: { {k: len(v) for k, v in levels.items()} }")
     print("→ reports/12_allowlist_expansion.md")
 
 
