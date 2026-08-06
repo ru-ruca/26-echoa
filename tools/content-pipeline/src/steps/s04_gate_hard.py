@@ -23,7 +23,7 @@ from statistics import mean
 
 from src.lib.jsonl import WORK_DIR, read_jsonl, write_jsonl
 from src.lib.similarity import ratio, similarity, tokens
-from src.lib.textproc import content_lemmas
+from src.lib.textproc import lemma_candidates
 
 # 씨앗 유사도 상한 (c1: 원문과 "달라야" 통과)
 SEED_JACCARD_MAX = 0.55
@@ -36,10 +36,23 @@ DUP_PREFILTER_JACCARD = 0.4  # 이 미만이면 ratio 계산 생략 (성능)
 CORE_EXCESS_MAX = 2
 
 
-def load_allowlist() -> tuple[set[str], set[str]]:
+def load_allowlist(cefr: str | None = None) -> tuple[set[str], set[str]]:
+    """허용 어휘 (core, extended).
+
+    cefr를 주면 그 레벨의 누적 목록을 쓴다 (A2 학습자는 A1 어휘도 안다).
+    C-1 확대가 A1~B2에 걸쳐 있어 레벨을 지정하지 않으면 상위 레벨 문장이 대량 탈락한다.
+    """
     data = json.loads((WORK_DIR / "allowlist_m01_03.json").read_text(encoding="utf-8"))
     core = set(data["core"])
     extended = core | set(data["extended_extra"])
+
+    if cefr:
+        level_file = WORK_DIR.parents[1] / "output" / "allowlist_by_level.json"
+        if level_file.exists():
+            levels = json.loads(level_file.read_text(encoding="utf-8"))["lemmas"]
+            if cefr in levels:
+                core = set(levels[cefr])
+                extended = set(levels[cefr])
     out_dir = WORK_DIR.parents[1] / "output"
     # 인간 검수에서 승인된 어휘(누적) — 검수가 최종 게이트라는 원칙의 반영
     approved_file = out_dir / "allowlist_human_approved.json"
@@ -73,11 +86,19 @@ def max_dup(text: str, tok: set[str], rows: list[tuple[str, str, set[str]]]) -> 
 
 
 def vocab_check(text: str, core: set[str], extended: set[str]) -> tuple[list[str], list[str]]:
-    lemmas = content_lemmas(text)
-    return (
-        [lm for lm in lemmas if lm not in extended],
-        [lm for lm in lemmas if lm not in core],
-    )
+    """허용 목록 초과 lemma를 낸다.
+
+    lemma 후보 집합 중 하나라도 목록에 있으면 통과 — spacy 규칙 lemmatizer의
+    중복자음 오류(`hoping`→`hop`)로 정상 문장이 탈락하는 것을 막는다 (lemma_candidates 참조).
+    """
+    ext_excess, core_excess = [], []
+    for cands in lemma_candidates(text):
+        label = min(cands, key=len)
+        if not (cands & extended):
+            ext_excess.append(label)
+        if not (cands & core):
+            core_excess.append(label)
+    return ext_excess, core_excess
 
 
 def normalize(text: str) -> str:

@@ -71,7 +71,9 @@ def main() -> None:
             t = {"action": "done", "reason": "파일럿에서 처리 완료"}
         out.append(s | {"triage": t})
 
-    targets = [s for s in out if s["triage"]["action"] == "rewrite"]
+    # 사용자 결정 2026-08-06: `review`(실명 저자 quote)도 재작성한다.
+    # 사망연도 확인 비용보다 재작성이 확실하고, 광고 모델이라 인용 항변이 불리하다(ADR-010).
+    targets = [s for s in out if s["triage"]["action"] in ("rewrite", "review")]
     write_jsonl(WORK_DIR / "c1_rewrite_targets.jsonl", targets)
     write_jsonl(WORK_DIR / "c1_triaged.jsonl", out)
 
@@ -134,11 +136,16 @@ ADR-010 처리 기준표는 계열별로 다르고, quote는 **"만료·저작�
 **A2·B1·B2는 해당 연차 커리큘럼으로 [s13](12_allowlist_expansion.md)을 다시 돌려 레벨별 목록을 만든 뒤** 진행해야 한다.
 그렇지 않으면 게이트가 정상 어휘를 대량 탈락시킨다.
 
+## 결정 — `review` 77건도 재작성 (2026-08-06)
+
+실명 저자 quote는 사후 70년 경과를 확인해야 keep 가능하지만, **전량 재작성**을 선택했다.
+근거: 사망연도 확인 비용보다 재작성이 확실하고, 광고 모델이라 인용(제28조)·공정이용 항변이
+모두 불리하다(ADR-010). 따라서 재작성 대상 = `rewrite` + `review` = **{len(targets)}건**.
+
 ## 다음
 
-1. A1 대상분 먼저 재작성 (파일럿 파이프라인 그대로 적용 가능).
-2. A2·B1·B2는 레벨별 허용 목록 구성 후 진행.
-3. `review` 판정 {actions.get('review', 0)}건은 사람이 저작권 표기를 확인해 keep/rewrite 결정.
+1. A1 대상분({by_cefr.get('A1', 0)}건) 먼저 재작성해 파이프라인 검증 — A2~B2는 처음 도는 레벨이다.
+2. 검증 후 A2·B1·B2로 확대 (레벨별 허용 목록은 [s13](12_allowlist_expansion.md)에서 구축 완료).
 """
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     (REPORTS_DIR / "14_c1_triage.md").write_text(report, encoding="utf-8")
