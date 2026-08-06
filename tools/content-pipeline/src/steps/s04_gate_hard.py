@@ -40,11 +40,17 @@ def load_allowlist() -> tuple[set[str], set[str]]:
     data = json.loads((WORK_DIR / "allowlist_m01_03.json").read_text(encoding="utf-8"))
     core = set(data["core"])
     extended = core | set(data["extended_extra"])
+    out_dir = WORK_DIR.parents[1] / "output"
     # 인간 검수에서 승인된 어휘(누적) — 검수가 최종 게이트라는 원칙의 반영
-    approved_file = WORK_DIR.parents[1] / "output" / "allowlist_human_approved.json"
+    approved_file = out_dir / "allowlist_human_approved.json"
     if approved_file.exists():
         approved = json.loads(approved_file.read_text(encoding="utf-8"))
         extended |= {w["lemma"] for w in approved["words"]}
+    # year1 커리큘럼 실등장 어휘 — 전 문장이 A1 라벨이라 A1 적정으로 본다 (s13)
+    expanded_file = out_dir / "allowlist_a1_expanded.json"
+    if expanded_file.exists():
+        expanded = json.loads(expanded_file.read_text(encoding="utf-8"))
+        extended |= set(expanded["lemmas"])
     return core, extended
 
 
