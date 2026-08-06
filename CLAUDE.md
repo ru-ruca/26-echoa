@@ -60,8 +60,8 @@
 - [x] 파일럿 Phase 2(C-2 패턴 문장, 씨앗 145×6=870) 생성·게이트·채점 완료 — 게이트 738 통과(패턴파괴 0), judge 전체 3.95 / **적격 씨앗분 4.15**. [지표](tools/content-pipeline/reports/05_c2_pilot_metrics.md)
 - [x] C-2 인간 검수·씨앗결함 처리 완료 — 확정본 [output/c2_final.jsonl](tools/content-pipeline/output/c2_final.jsonl) **528건/씨앗 116개**, 23 §5 조건부 통과. [최종 요약](tools/content-pipeline/reports/07_c2_final_summary.md)
 - [x] 파일럿 Phase 3(C-3 대화 50개) 생성·게이트·채점 완료 — 게이트·스키마 검증 100%, **마지막 턴 A1 유지 50/50**, judge 3.74(A군 4.10/B군 3.46). [지표](tools/content-pipeline/reports/08_c3_pilot_metrics.md)
-- [ ] **다음: C-3 인간 검수** — [reports/c3_review_sheet.md](tools/content-pipeline/reports/c3_review_sheet.md) 50개(대화 단위 전량)
-- [ ] 이후: C-1 341 확대 → A1 어휘 목록 보강 → 월 단위 확대 → 모노레포 스캐폴딩(21 단계1)
+- [x] C-3 인간 검수·확정 완료 — [output/c3_final.jsonl](tools/content-pipeline/output/c3_final.jsonl) **대화 37개/148행**, 마지막 턴 A1 50/50·스키마 적재 검증 통과. [최종 요약](tools/content-pipeline/reports/10_c3_final_summary.md)
+- [ ] **다음(파일럿 종료 후 선택)**: ① C-1 341 확대 ② A1 어휘 목록 보강 ③ 씨앗 dedup·동화 씨앗 행선지 결정 ④ 월 단위 확대 ⑤ 모노레포 스캐폴딩(21 단계1)
 - [ ] 이후: 모노레포 스캐폴딩(21 단계1)
 
 ## Git

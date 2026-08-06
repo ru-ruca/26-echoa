@@ -1,0 +1,12 @@
+{
+ "note": "C-3 검수에서 발견된 씨앗 교정 — 씨앗 문장 자체가 style_lessons 위반이라 대화 턴이 아니라 씨앗을 고쳤다.",
+ "reviewed_at": "2026-08-06",
+ "corrections": [
+  {
+   "seed_id": "M03_048",
+   "before": "I am tired, and I want to sleep.",
+   "after": "I'm tired. I want to go to bed.",
+   "reason": "비축약 I am + 문어체 , and 접속 (style_lessons §1). C-2 확정본 영향 없음(변형 0건)."
+  }
+ ]
+}

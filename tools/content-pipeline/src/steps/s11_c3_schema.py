@@ -77,7 +77,8 @@ def to_rows(dlg: dict, seed: dict, dialogue_no: int) -> list[dict]:
 
 def main(in_path: str | None = None) -> None:
     src = Path(in_path) if in_path else WORK_DIR / "c3_candidates_gated.jsonl"
-    dialogues = [d for d in read_jsonl(src) if d["gate"]["pass"]]
+    # 게이트 산출물(gate 필드 있음)과 확정본(없음) 양쪽을 받는다
+    dialogues = [d for d in read_jsonl(src) if d.get("gate", {}).get("pass", True)]
     seeds = {s["id"]: s for s in read_jsonl(WORK_DIR / "c3_seeds.jsonl")}
     live = read_jsonl(WORK_DIR / "sentences_all.jsonl")
     live_ids = {r["id"] for r in live}
