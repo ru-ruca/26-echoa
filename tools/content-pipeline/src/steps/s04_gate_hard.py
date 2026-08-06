@@ -53,6 +53,13 @@ def load_allowlist(cefr: str | None = None) -> tuple[set[str], set[str]]:
             if cefr in levels:
                 core = set(levels[cefr])
                 extended = set(levels[cefr])
+        # 보류 어휘는 해당 레벨에서만 뺀다 (better는 A1 문법 상한이 근거라 A2 이상엔 무관)
+        held_file = WORK_DIR.parents[1] / "output" / "allowlist_human_approved.json"
+        if held_file.exists():
+            for h in json.loads(held_file.read_text(encoding="utf-8")).get("held", []):
+                if cefr in h.get("scope", [cefr]):
+                    core.discard(h["lemma"])
+                    extended.discard(h["lemma"])
     out_dir = WORK_DIR.parents[1] / "output"
     # 인간 검수에서 승인된 어휘(누적) — 검수가 최종 게이트라는 원칙의 반영
     approved_file = out_dir / "allowlist_human_approved.json"

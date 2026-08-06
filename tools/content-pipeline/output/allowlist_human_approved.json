@@ -90,7 +90,11 @@
  "held": [
   {
    "lemma": "better",
-   "reason": "비교급 — A1 문법 상한(style_lessons §6). 승인 시 변형 전량이 A1 이탈 위험"
+   "scope": [
+    "A1"
+   ],
+   "reason": "비교급 — A1 문법 상한(style_lessons §6). A2 이상에서는 근거가 없어 허용한다."
   }
- ]
+ ],
+ "held_note": "scope에 적힌 레벨에서만 보류한다. 레벨을 명시하지 않으면 전 레벨 보류."
 }
