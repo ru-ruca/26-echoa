@@ -64,7 +64,9 @@
 - [x] 어휘 목록 보강(546→912, 레벨별 A1~B2 구축) · 씨앗 적격성 자동 분류(무익 씨앗 72% 사전 차단)
 - [x] **C-1 확대 생성 완료** — 위험 계열 616건 선별 → 재작성 426씨앗 × 3후보 = 1,278건, 게이트 100%. [지표](tools/content-pipeline/reports/15_c1_full_metrics.md)
 - [x] **C-1 확대 완료** — 검수 122씨앗 채택 94%·저작권 탈락 0건, 확정 [c1_full_final.jsonl](tools/content-pipeline/output/c1_full_final.jsonl) **419건**(파일럿 27 포함 총 446). [최종 요약](tools/content-pipeline/reports/17_c1_full_summary.md)
-- [ ] **다음**: ① M17 문어체 커넥터 씨앗 교체 7건 ② B1·B2 어휘 목록 보강 ③ 월 단위 확대(M04~) ④ 모노레포 스캐폴딩(21 단계1)
+- [x] **콘텐츠 파이프라인 종료** — 산출 1,122건(C-1 446·C-2 528·C-3 148행). 출시 전제(저작권)는 해소됨. [handoff: 21 §9](docs/project-review/21_rebuild-plan.md)
+- [ ] **다음: 모노레포 스캐폴딩(21 단계1)** — 코드가 콘텐츠에 의존하지 않고, 반대로 [23 §9 미결정](docs/project-review/23_content-pipeline-spec.md)(C-2 변형의 학습 흐름 소비 방식)이 앱에서만 풀린다
+- [ ] 고도화 이월: M17 씨앗 교체 7건 · B1·B2 어휘 보강 · 월 단위 확대(M04~48)
 - [ ] 이후: 모노레포 스캐폴딩(21 단계1)
 
 ## Git

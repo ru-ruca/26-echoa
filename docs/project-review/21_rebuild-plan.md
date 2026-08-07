@@ -102,7 +102,47 @@ Spec-driven(자연어 spec → 타입/스키마 → 구현, spec이 SSOT):
 
 ---
 
-## 9. 다음 세션 착수 (handoff)
+## 9. 다음 세션 착수 (handoff) — 2026-08-07 갱신: **단계 1 모노레포 스캐폴딩**
+
+### 콘텐츠 파이프라인은 여기서 멈춘다 (완료·보류 구분)
+
+**완료**: 파일럿 3트랙 + C-1 확대. 산출 **1,122건** — C-1 446(`ai_rewritten`) · C-2 528 · C-3 대화 37(148행).
+구현·리포트는 [tools/content-pipeline/](../../tools/content-pipeline/README.md),
+종합 판정은 [11 결론](../../tools/content-pipeline/reports/11_pilot_conclusion.md) ·
+[17 C-1 확대 요약](../../tools/content-pipeline/reports/17_c1_full_summary.md).
+
+**출시 전제였던 저작권 처리(C-1)가 끝났다** — ADR-010 위험 슬라이스 616건을 선별해 426건 재작성,
+인간 검수에서 저작권 사유 탈락 0건. 콘텐츠는 지금 상태로 출시 가능하다.
+
+**보류(고도화로 이월)**: ① M17 문어체 커넥터 씨앗 교체 7건 ② B1·B2 어휘 목록 보강 ③ 월 단위 확대(M04~48).
+셋 다 출시를 막지 않는다. 특히 ③은 [23 §9 미결정](23_content-pipeline-spec.md)이 선행 조건이다 —
+**C-2 변형을 학습 흐름에서 어떻게 쓸지 모른 채 48개월분을 만들면 잘못된 형태를 대량 생산**하게 된다.
+앱이 실제로 콘텐츠를 소비하는 모습을 본 뒤 확대한다.
+
+### 왜 스캐폴딩이 먼저인가
+
+1. **코드가 콘텐츠에 의존하지 않는다** — 스캐폴딩은 create-t3-turbo + legacy TS 로직 이관이라 독립적이다.
+2. **콘텐츠는 코드에 의존한다** — 23 §9의 미결정이 앱 흐름에서만 풀린다.
+3. 기존 커리큘럼 3,622문장이 이미 있고 파일럿 1,122건이 더해졌다 — year1 학습에 충분하다.
+4. 21 §6 원칙("웹 먼저")과 19번의 "48개월 일괄 생성 금지"에 부합한다.
+
+### 스캐폴딩 단계에 추가된 요건 — 파이프라인 산출물 적재
+
+`packages/db` 스키마에 ADR-010을 반영할 때 아래를 함께 고려한다:
+
+| 산출물 | 적재 대상 | 비고 |
+|---|---|---|
+| `c1_final.jsonl` 27 + `c1_full_final.jsonl` 419 | `sentences.text_en` 교체, `content_origin='ai_rewritten'` | **원문은 `content_originals`로 격리** (공개 API·git·CSV 제외) |
+| `c2_final.jsonl` 528 | 신규 문장 (`ai_generated`) | 학습 흐름 소비 방식이 23 §9 미결정 — **앱 흐름 확정 후 적재** |
+| `c3_rows_final.jsonl` 148행 | `day_type='conversation'` 기존 스키마 그대로 | 스키마 검증 완료(충돌 0), 대화 번호 101~ |
+
+`content_origin` enum(`self_authored`·`ai_generated`·`ai_rewritten`·`public_domain`)은 ADR-010 §2 그대로.
+적재 스크립트는 `tools/content-pipeline/`이 아니라 `packages/db`의 seed/migration으로 두는 편이 낫다
+(파이프라인은 생성·검수 도구, 적재는 앱 자산).
+
+---
+
+## 9-1. 이전 handoff (2026-07-28, 콘텐츠 착수 시점)
 
 **여기까지 완료(2026-07-28)**: 스택 결정(ADR-009)·저작권 데이터모델(ADR-010)·재구성 계획(이 문서)·학습설계 spec(22)·콘텐츠 파이프라인 spec(23)·조사 아카이브 4종. legacy repo에 `legacy-nextjs-pwa` 태그로 재구성 직전 시점 보존. `quote`·`movie` 저작권 슬라이스 실측(341개=9.4%). **echoa repo 생성 + 문서 이관 완료.**
 
@@ -122,6 +162,8 @@ Spec-driven(자연어 spec → 타입/스키마 → 구현, spec이 SSOT):
 
 **옵션 B — 모노레포 스캐폴딩** ([21 단계1](21_rebuild-plan.md), 코드 골격 우선):
 > Echoa 모노레포를 스캐폴딩한다. 결정은 `docs/adr/009_stack-monorepo-decision.md`, 계획은 `docs/project-review/21_rebuild-plan.md` §2·§3. create-t3-turbo 기반으로 이 repo(`26-echoa`) 루트에 `apps/{web,native}`·`packages/{db,core,api,config}`를 만들고, legacy(`../26-SenTalk-en-study-app`)의 `web/src/lib/{fsrs,gamification,dialogue,speech-sequence,review-utils}.ts`를 `packages/core`로, `web/src/db/schema.ts`를 `packages/db`로 이관하라. DB는 개발 docker + 프로덕션 Neon, 스키마에 ADR-010(`content_originals` 격리·`content_origin` 필드)을 반영. 공유 경계는 좁게(UI는 웹/앱 각각), Solito 스킵.
+
+> ↑ **이것이 2026-08-07 현재 착수할 작업이다.** 위 §9의 판단 근거와 추가 요건(파이프라인 산출물 적재)을 함께 볼 것.
 
 ### 착수 전 사전 점검(선택)
 - `packages/core` 이관 대상(fsrs·gamification·dialogue·review-utils)의 외부 의존성 점검 — 순수 TS인지 확인해 이관 난이도 사전 파악.

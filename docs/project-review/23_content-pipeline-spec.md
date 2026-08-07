@@ -135,6 +135,10 @@ B: Sometimes, but I get used to it.       ← 이어짐(생성)
 
 - ~~LLM 모델·비용 산정~~ → **해결(D-27)**: Claude Code 세션(구독) 수행, API 비용 없음.
 - ~~허용 어휘 초과율 임계값~~ → **실측 완료**: `first_month`가 month 누적이 아니라(1/7/13/25만 존재) CEFR 기반 core/extended 이원화로 대체. 기존 문장 62%가 core 밖 단어 사용 → extended 기준 초과 0 + core 기준 ≤2(p90). [실측 리포트](../../tools/content-pipeline/reports/02_allowlist_baseline.md).
-- 씨앗 유사도 임계값 — Phase 1(C-1)에서 실측 후 확정.
-- 자동 문법 검사 도구 — 파일럿(소규모, 인간 검수 커버 가능)은 judge에 포함, C-2 대량 생성 전 LanguageTool 도입.
-- C-2 변형을 학습 흐름에서 어떻게 쓸지(복습 변형 문제 vs 신규 문장) — [22번](22_learning-design-spec.md) 흐름과 연계 필요.
+- ~~씨앗 유사도 임계값~~ → **확정**: jaccard 0.55 / ratio 0.65. C-1 확대 426씨앗에서 저작권 사유 탈락 0건으로 검증.
+  경계권은 관용구 유지라 안전하며, 예외는 잔여 유사도(공통 어구 제외)를 근거로 기록한다 →
+  [17 요약](../../tools/content-pipeline/reports/17_c1_full_summary.md).
+- 자동 문법 검사 도구 — 파일럿·확대 모두 judge가 커버했다(문법 플래그 C-1 확대 기준 11/1278). 월 단위 확대 전 재검토.
+- **C-2 변형을 학습 흐름에서 어떻게 쓸지(복습 변형 문제 vs 신규 문장)** — [22번](22_learning-design-spec.md) 흐름과 연계 필요.
+  → **이것이 월 단위 확대의 선행 조건이다.** 소비 방식을 모른 채 48개월분을 만들면 잘못된 형태를
+  대량 생산하게 된다. 앱을 만들어 실제 학습 흐름에 붙여 본 뒤 확대한다([21 §9](21_rebuild-plan.md) 판단).
