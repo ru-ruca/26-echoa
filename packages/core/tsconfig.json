@@ -1,0 +1,5 @@
+{
+  "extends": "@echoa/tsconfig/library.json",
+  "include": ["src", "*.ts", "*.js"],
+  "exclude": ["node_modules"]
+}
