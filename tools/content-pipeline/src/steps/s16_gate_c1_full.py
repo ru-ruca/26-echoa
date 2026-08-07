@@ -28,9 +28,24 @@ from src.steps.s04_gate_hard import (
 )
 
 
+def load_exceptions() -> dict[str, dict]:
+    """인간 검수가 관용구 유지를 이유로 채택한 유사도 예외.
+
+    관용구는 저자의 표현이 아니라 공용 영어라 ADR-010의 보호 대상이 아니다.
+    기계로는 관용구와 표현 복제를 구분할 수 없어 사람의 판정을 기록해 쓴다.
+    """
+    f = WORK_DIR.parents[1] / "output" / "c1_similarity_exceptions.json"
+    if not f.exists():
+        return {}
+    import json as _json
+
+    return {e["seed_id"]: e for e in _json.loads(f.read_text(encoding="utf-8"))["exceptions"]}
+
+
 def main(in_path: str, out_path: str) -> None:
     candidates = read_jsonl(Path(in_path))
     seeds = {s["id"]: s for s in read_jsonl(WORK_DIR / "c1_rewrite_targets.jsonl")}
+    exceptions = load_exceptions()
     db_index = [
         (r["id"], r["text_en"], set(tokens(r["text_en"])))
         for r in read_jsonl(WORK_DIR / "sentences_all.jsonl")
@@ -45,7 +60,9 @@ def main(in_path: str, out_path: str) -> None:
         fails = []
 
         seed_sim = similarity(text, seed["text_en"])
-        if seed_sim["jaccard"] >= SEED_JACCARD_MAX or seed_sim["ratio"] >= SEED_RATIO_MAX:
+        over = seed_sim["jaccard"] >= SEED_JACCARD_MAX or seed_sim["ratio"] >= SEED_RATIO_MAX
+        exc = exceptions.get(cand["seed_id"])
+        if over and not (exc and abs(exc["seed_sim"] - seed_sim["ratio"]) < 1e-6):
             fails.append("too_similar_to_seed")
 
         best = {"id": None, "ratio": 0.0}

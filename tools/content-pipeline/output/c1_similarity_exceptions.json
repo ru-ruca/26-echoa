@@ -1,0 +1,72 @@
+{
+ "note": "씨앗 유사도 상한(0.65) 초과 예외 — 인간 검수가 관용구 유지를 이유로 채택한 건. ADR-010의 보호 대상은 저자의 표현이지 관용구가 아니며, 관용구를 바꾸면 그 씨앗의 교육 목적이 사라진다. 근거로 공통 최장 어구를 제외한 잔여 유사도를 함께 기록한다(전부 상한 미만).",
+ "limitation": "잔여 유사도는 공통 어구가 관용구인지 저자의 표현인지 판별하지 못한다 — 실제 문장을 사람이 확인한 결과다.",
+ "approved_at": "2026-08-07",
+ "approved_by": "human_review (c1_full_review_sheet_filled)",
+ "generated_at": "2026-08-07T03:49:39+00:00",
+ "exceptions": [
+  {
+   "seed_id": "M14_042",
+   "day_type": "news",
+   "cefr": "A2",
+   "seed_sim": 0.681,
+   "shared_phrase": "a different kettle of fish",
+   "residual_ratio": 0.35,
+   "rationale": "공통 어구가 관용구(공용 영어)이고, 이를 제외한 잔여 유사도가 상한 아래다 — 관용구 외에 원문 표현이 남지 않았다."
+  },
+  {
+   "seed_id": "M18_008",
+   "day_type": "movie",
+   "cefr": "A2",
+   "seed_sim": 0.719,
+   "shared_phrase": "and the rest is history",
+   "residual_ratio": 0.0,
+   "rationale": "공통 어구가 관용구(공용 영어)이고, 이를 제외한 잔여 유사도가 상한 아래다 — 관용구 외에 원문 표현이 남지 않았다."
+  },
+  {
+   "seed_id": "M18_021",
+   "day_type": "movie",
+   "cefr": "A2",
+   "seed_sim": 0.652,
+   "shared_phrase": "once upon a time",
+   "residual_ratio": 0.473,
+   "rationale": "공통 어구가 관용구(공용 영어)이고, 이를 제외한 잔여 유사도가 상한 아래다 — 관용구 외에 원문 표현이 남지 않았다."
+  },
+  {
+   "seed_id": "M19_008",
+   "day_type": "news",
+   "cefr": "A2",
+   "seed_sim": 0.606,
+   "shared_phrase": "that makes two of us",
+   "residual_ratio": 0.0,
+   "rationale": "공통 어구가 관용구(공용 영어)이고, 이를 제외한 잔여 유사도가 상한 아래다 — 관용구 외에 원문 표현이 남지 않았다."
+  },
+  {
+   "seed_id": "M21_045",
+   "day_type": "news",
+   "cefr": "A2",
+   "seed_sim": 0.659,
+   "shared_phrase": "let me put it this way",
+   "residual_ratio": 0.286,
+   "rationale": "공통 어구가 관용구(공용 영어)이고, 이를 제외한 잔여 유사도가 상한 아래다 — 관용구 외에 원문 표현이 남지 않았다."
+  },
+  {
+   "seed_id": "M23_012",
+   "day_type": "movie",
+   "cefr": "A2",
+   "seed_sim": 0.675,
+   "shared_phrase": "had the last laugh",
+   "residual_ratio": 0.429,
+   "rationale": "공통 어구가 관용구(공용 영어)이고, 이를 제외한 잔여 유사도가 상한 아래다 — 관용구 외에 원문 표현이 남지 않았다."
+  },
+  {
+   "seed_id": "M23_042",
+   "day_type": "comedy",
+   "cefr": "A2",
+   "seed_sim": 0.787,
+   "shared_phrase": "rolling on the floor laughing",
+   "residual_ratio": 0.345,
+   "rationale": "공통 어구가 관용구(공용 영어)이고, 이를 제외한 잔여 유사도가 상한 아래다 — 관용구 외에 원문 표현이 남지 않았다."
+  }
+ ]
+}

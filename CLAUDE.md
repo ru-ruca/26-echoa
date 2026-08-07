@@ -63,8 +63,8 @@
 - [x] C-3 인간 검수·확정 완료 — [output/c3_final.jsonl](tools/content-pipeline/output/c3_final.jsonl) **대화 37개/148행**, 마지막 턴 A1 50/50·스키마 적재 검증 통과. [최종 요약](tools/content-pipeline/reports/10_c3_final_summary.md)
 - [x] 어휘 목록 보강(546→912, 레벨별 A1~B2 구축) · 씨앗 적격성 자동 분류(무익 씨앗 72% 사전 차단)
 - [x] **C-1 확대 생성 완료** — 위험 계열 616건 선별 → 재작성 426씨앗 × 3후보 = 1,278건, 게이트 100%. [지표](tools/content-pipeline/reports/15_c1_full_metrics.md)
-- [ ] **다음: C-1 확대 인간 검수** — [restricted/c1_full_review_sheet.md](tools/content-pipeline/reports/restricted/c1_full_review_sheet.md) 122씨앗(저점 49 + 유사도 경계 49 + 샘플 33)
-- [ ] 이후: M17 문어체 커넥터 씨앗 교체 → 월 단위 확대 → 모노레포 스캐폴딩(21 단계1)
+- [x] **C-1 확대 완료** — 검수 122씨앗 채택 94%·저작권 탈락 0건, 확정 [c1_full_final.jsonl](tools/content-pipeline/output/c1_full_final.jsonl) **419건**(파일럿 27 포함 총 446). [최종 요약](tools/content-pipeline/reports/17_c1_full_summary.md)
+- [ ] **다음**: ① M17 문어체 커넥터 씨앗 교체 7건 ② B1·B2 어휘 목록 보강 ③ 월 단위 확대(M04~) ④ 모노레포 스캐폴딩(21 단계1)
 - [ ] 이후: 모노레포 스캐폴딩(21 단계1)
 
 ## Git
