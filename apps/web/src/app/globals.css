@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+
+/*
+ * 디자인 토큰 자리.
+ *
+ * 22번 학습설계 spec 확정 → claude.ai/design 으로 디자인 시스템 생성 → 여기에 반영하고
+ * `/design-sync` 로 역방향 동기화한다 (docs/ui-design/README.md).
+ * 지금은 Tailwind v4 기본값만 쓴다.
+ */
+@theme {
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Pretendard Variable', Pretendard, 'Noto Sans KR',
+    sans-serif;
+}

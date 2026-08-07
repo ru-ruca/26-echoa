@@ -1,0 +1,37 @@
+{
+  "name": "@echoa/web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@echoa/api": "workspace:*",
+    "@echoa/core": "workspace:*",
+    "@echoa/db": "workspace:*",
+    "@tanstack/react-query": "catalog:",
+    "@trpc/client": "catalog:",
+    "@trpc/server": "catalog:",
+    "@trpc/tanstack-react-query": "catalog:",
+    "next": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "superjson": "catalog:"
+  },
+  "devDependencies": {
+    "@echoa/eslint-config": "workspace:*",
+    "@echoa/tsconfig": "workspace:*",
+    "@tailwindcss/postcss": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "eslint": "catalog:",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:"
+  }
+}
