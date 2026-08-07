@@ -131,7 +131,7 @@ B: Sometimes, but I get used to it.       ← 이어짐(생성)
 
 - 48개월 일괄 생성 · 생성물을 다시 씨앗으로 재귀 생성(model collapse) · 검수 없이 노출 · 프롬프트만으로 난이도 통제 신뢰 · 씨앗 단어만 바꾼 "재작성"(저작권 미해결).
 
-## 9. 미결정 (2026-07-30 갱신)
+## 9. 미결정 (2026-08-07 갱신)
 
 - ~~LLM 모델·비용 산정~~ → **해결(D-27)**: Claude Code 세션(구독) 수행, API 비용 없음.
 - ~~허용 어휘 초과율 임계값~~ → **실측 완료**: `first_month`가 month 누적이 아니라(1/7/13/25만 존재) CEFR 기반 core/extended 이원화로 대체. 기존 문장 62%가 core 밖 단어 사용 → extended 기준 초과 0 + core 기준 ≤2(p90). [실측 리포트](../../tools/content-pipeline/reports/02_allowlist_baseline.md).
@@ -142,3 +142,9 @@ B: Sometimes, but I get used to it.       ← 이어짐(생성)
 - **C-2 변형을 학습 흐름에서 어떻게 쓸지(복습 변형 문제 vs 신규 문장)** — [22번](22_learning-design-spec.md) 흐름과 연계 필요.
   → **이것이 월 단위 확대의 선행 조건이다.** 소비 방식을 모른 채 48개월분을 만들면 잘못된 형태를
   대량 생산하게 된다. 앱을 만들어 실제 학습 흐름에 붙여 본 뒤 확대한다([21 §9](21_rebuild-plan.md) 판단).
+  - **2026-08-07 스캐폴딩에서 확인된 것**: C-2 528건에는 `id`·`month`·`week`·`day`·`day_type`·`cefr_level`이
+    **하나도 없다**. 소비 방식이 정해져야 id 발번 규칙(예: C-3의 `M01_D101_L01` 같은)도 같이 정해진다.
+    그래서 `packages/db`의 seed는 C-2를 **명시적으로 보류**로 두고 C-3만 적재했다([21 §9](21_rebuild-plan.md)).
+  - **[E-05 미모델링 legacy 테이블](24_deferred-legacy-tables.md)과 묶어서 판정한다.**
+    `question_patterns`(91건)가 C-2와 **같은 문제 공간**이다 — 둘 다 "패턴 + 변형"이고,
+    학습 흐름에서 어떻게 쓸지가 정해지면 둘의 운명이 같이 정해진다. 따로 판단하면 두 번 일한다.

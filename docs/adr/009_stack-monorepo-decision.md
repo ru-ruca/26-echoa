@@ -1,7 +1,12 @@
 # ADR-009: 네이티브 스택 및 모노레포 결정 (RN/Expo + Next.js)
 
-> Status: **Accepted** (2026-07-27)
+> Status: **Accepted** (2026-07-27) — **Amended by [ADR-011](011_scaffolding-and-app-shell-deferral.md)** (2026-08-07)
 > **Supersedes**: [ADR-001](../../../26-SenTalk-en-study-app/docs/adr/001_deployment-platform.md) (배포 플랫폼 + Flutter 전환) — P-01 결정 해소
+>
+> **개정 요약**([ADR-011](011_scaffolding-and-app-shell-deferral.md)): §Decision-3의 "create-t3-turbo 기반"은
+> 스타터 정체(main 2025-12-12 이후 멈춤)로 **최신 버전 손수 구성**으로 바뀌었고, §Decision-1의 RN/Expo는
+> **유예**(배제 아님) 상태다 — §Decision-4 트리거 도달 시 Expo·Capacitor·Flutter 래퍼를 재평가한다.
+> §Decision-2(웹 = Next.js)와 §Decision-4(트리거 = TTS), 그리고 아래 §근거의 Flutter 배제 논리는 그대로 유효하다.
 > 근거 원자료: [docs/research/2026-07_native-stack-research.md](../research/2026-07_native-stack-research.md)
 > 재구성 계획: [docs/project-review/21_rebuild-plan.md](../project-review/21_rebuild-plan.md)
 

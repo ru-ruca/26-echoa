@@ -6,10 +6,12 @@ Echoa(구 SenTalk) 재구성의 기획·설계·조사 문서. 2026-07-28 SenTal
 
 - **project-review/** — 계획·spec
   - `21_rebuild-plan.md` 재구성 계획(SSOT) · `22_learning-design-spec.md` 학습설계·UI/UX · `23_content-pipeline-spec.md` 콘텐츠 생성 파이프라인
+  - `24_deferred-legacy-tables.md` 미모델링 legacy 테이블 4개(보류 사유·컬럼 정의)
   - `19_communication-first-redesign.md` 학습 재설계 5축(계승) · `15_learning-flow-spec.md` 4단계 플로우(계승)
   - `20_release-feasibility.md`·`20a_release-comparison-tables.md` 출시 타당성
-- **adr/** — 결정 기록: `000_decision-log.md`(인덱스) · `009`(스택) · `010`(저작권·데이터모델)
-- **research/** — 원자료 조사 아카이브: 스택·출시타당성·이름·콘텐츠확장
+- **adr/** — 결정 기록: `000_decision-log.md`(인덱스) · `009`(스택) · `010`(저작권·데이터모델) · `011`(스캐폴딩·앱 껍데기 유예 — 009 개정)
+- **ui-design/** — 디자인 진행 순서(claude.ai/design 두 경로). `_reference/`·`_archive/`는 git 제외
+- **research/** — 원자료 조사 아카이브: 스택·출시타당성·이름·콘텐츠확장·앱껍데기 재검토(2026-08)
 
 ## 이관·링크 정책
 

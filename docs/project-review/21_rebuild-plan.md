@@ -1,8 +1,8 @@
 # Echoa 재구성 계획 (RN/Expo 모노레포)
 
-> **Status**: 계획 확정 — 스캐폴딩 착수 대기
+> **Status**: 단계 1(모노레포 스캐폴딩) 완료 — 단계 2 대기 (2026-08-07)
 > **작성일**: 2026-07-27 (2026-07-28 echoa repo로 이관)
-> **스택 결정**: [ADR-009](../adr/009_stack-monorepo-decision.md) (legacy ADR-001 supersede) · **근거**: [네이티브 스택 리서치](../research/2026-07_native-stack-research.md) · [출시 타당성](20_release-feasibility.md)
+> **스택 결정**: [ADR-009](../adr/009_stack-monorepo-decision.md) (legacy ADR-001 supersede) + [ADR-011](../adr/011_scaffolding-and-app-shell-deferral.md)(개정: 최신 버전 손수 구성·앱 껍데기 유예) · **근거**: [네이티브 스택 리서치](../research/2026-07_native-stack-research.md) · [앱 껍데기 재검토](../research/2026-08_app-shell-reassessment.md) · [출시 타당성](20_release-feasibility.md)
 > **학습 재설계 SSOT**: [19_communication-first-redesign.md](19_communication-first-redesign.md) 계승 · **학습설계 spec**: [22](22_learning-design-spec.md) · **콘텐츠 파이프라인**: [23](23_content-pipeline-spec.md)
 
 이 문서는 "legacy SenTalk(`../../../26-SenTalk-en-study-app`)을 참고 자산으로 남기고 Echoa를 새로 구성"하는 계획의 SSOT다.
@@ -19,22 +19,33 @@
 
 현 코드베이스의 근본 부채(deviceId 임시 인증·IDOR, admin 잔재 제거 후 구조, 웹 단일 앱)를 점진 수리하기보다, 검증된 모노레포 스타터에서 깨끗이 시작하는 편이 낫다는 판단.
 
-## 2. 목표 구조 (create-t3-turbo 기반, pnpm + Turborepo)
+## 2. 목표 구조 (pnpm + Turborepo) — 2026-08-07 실측 반영
 
 ```
 26-echoa/ (모노레포 루트)
 ├── apps/
-│   ├── web/        # Next.js 16 — 공개용, SEO. 기존 web/ 이관·정리
-│   └── native/     # Expo (RN) — iOS·Android. TTS·녹음 네이티브
+│   └── web/                  # Next.js 16.3 — 공개용, SEO
+│       └── src/components/   # UI + 디자인 시스템 (/design-sync 실행 지점)
 ├── packages/
-│   ├── db/         # Drizzle 스키마 (기존 schema.ts 이관)
-│   ├── api/        # tRPC 라우터 또는 API 클라이언트 (기존 api/ 로직)
-│   ├── core/       # fsrs·gamification·dialogue·review-utils (순수 TS 이관)
-│   └── config/     # tsconfig·eslint 공유
+│   ├── core/                 # 순수 TS — fsrs·gamification 규칙·dialogue·
+│   │                         #   speech-sequence·review-utils·errors + 도메인 타입
+│   ├── db/                   # Drizzle 스키마(+ content_originals 격리) + seed
+│   └── api/                  # tRPC v11 라우터
+├── tooling/{typescript,eslint,prettier}/   # 공유 설정
+├── docs/
+└── tools/content-pipeline/   # Python(uv) — pnpm 워크스페이스 밖
 ```
 
-- 스타터: [`create-t3-turbo`](https://github.com/t3-oss/create-t3-turbo) — Better Auth·Drizzle·tRPC·NativeWind 세팅됨.
-- **공유 경계는 좁게**: 타입·zod·API 클라이언트·순수 로직만 `packages/`. **UI는 웹/앱 각각 작성**(Tamagui 전면 도입 등 억지 공유 금지 — 1인에 과함). Solito 스킵.
+**`apps/native`와 `packages/ui`는 만들지 않았다** ([ADR-011](../adr/011_scaffolding-and-app-shell-deferral.md)):
+- 앱 껍데기를 유예했다(ADR-009 §4 트리거 준수). 빈 Expo 셸은 turbo 그래프·CI·의존성만 늘리고 아무것도 검증하지 않는다.
+- UI 소비처가 `apps/web` 하나뿐이라 UI 패키지를 미리 가르지 않는다. 두 번째 소비처가 생기면 그때 토큰만 추출한다.
+- `packages/config` → `tooling/{typescript,eslint,prettier}`로 분리(create-t3-turbo 관례).
+
+- **스타터를 clone하지 않았다** — [`create-t3-turbo`](https://github.com/t3-oss/create-t3-turbo) main이
+  2025-12-12 이후 정체(Next 15·Expo SDK 54·better-auth 1.4-beta)라 배선 패턴만 참조하고
+  버전은 착수 시점 최신으로 고정했다. 근거: [ADR-011 §1](../adr/011_scaffolding-and-app-shell-deferral.md)
+- **공유 경계는 좁게**: 타입·zod·API·순수 로직만 `packages/`. **UI는 웹/앱 각각 작성**(Tamagui 전면 도입 등 억지 공유 금지 — 1인에 과함). Solito 스킵.
+- `packages/api` = **tRPC v11 확정**([D-30](../adr/000_decision-log.md)) — "라우터 또는 API 클라이언트" 미확정 해소.
 
 ## 3. 자산 처리 (참고 남기기 → 이관/재작성 판별)
 
@@ -55,10 +66,10 @@
 | 단계 | 내용 | 산출 | 상태 |
 |---|---|---|---|
 | **0. 결정 문서화** | ADR-009 + 이 문서 + research 아카이브 | 문서 3종 | ✅ 완료 |
-| **1. 모노레포 스캐폴딩** | create-t3-turbo로 새 repo, `packages/{db,core,api}` 이관, 웹 기동 | 빌드되는 골격 | 대기 |
-| **2. 웹 재구성·공개** | Next.js 웹 이관·정리 + Better Auth + 보안헤더 + Vercel 배포 | 공개 웹(개인→공개) | 대기 |
+| **1. 모노레포 스캐폴딩** | 최신 버전으로 워크스페이스 구성, `packages/{core,db,api}` 이관, 웹 기동, C-3 적재 경로 증명 | 빌드되는 골격 | ✅ 완료 (2026-08-07) |
+| **2. 웹 재구성·공개** | 학습 흐름 구현 + Better Auth + legacy 데이터 이관 + 보안헤더 + Vercel 배포 | 공개 웹(개인→공개) | 대기 |
 | **3. 학습자료·UI/UX 재설계** | spec([22](22_learning-design-spec.md)) → 콘텐츠 슬라이스 교체 → UI 재구현 (§5) | 재설계된 학습 흐름 | spec 초안 완료 |
-| **4. Expo 앱** | native 앱 + expo-speech TTS + 녹음. **TTS가 실제 제약될 때 착수** | iOS·Android 앱 | 대기(트리거 대기) |
+| **4. 앱 껍데기** | **TTS가 실제 제약될 때 착수.** 그 시점에 Capacitor·Expo·Flutter 래퍼를 재평가([E-06](../adr/000_decision-log.md), 기본 후보 Capacitor) + TTS·녹음·AdMob 연결 | iOS·Android 앱 | 대기(트리거 대기) |
 
 ## 5. 학습설계·UI/UX 재설계 (방향·원칙 — 상세 spec은 후속)
 
@@ -95,14 +106,66 @@ Spec-driven(자연어 spec → 타입/스키마 → 구현, spec이 SSOT):
 
 ## 8. 검증 (각 단계)
 
-- 단계 1: `pnpm build`·`pnpm dev` 웹/앱 동시 기동, `packages/core` 타입 공유 확인.
+- 단계 1: ~~`pnpm build`·`pnpm dev` 웹/앱 동시 기동~~ → **웹 기동 + `packages/core` 타입 공유 + seed 적재 경로 증명**
+  으로 조정([ADR-011](../adr/011_scaffolding-and-app-shell-deferral.md)에서 앱 껍데기를 유예했으므로 "앱 동시 기동"은
+  검증할 대상이 없다). **2026-08-07 실측 결과**:
+  - `pnpm typecheck`·`lint`·`test`·`build`·`format` 전부 통과. 테스트 **87개**(core 74 · db 7 · api 6)
+  - `pnpm db:push` → `No changes` — legacy에서 drift로 금지였던 상태가 복구됐다
+  - C-3 148행 적재 후 `select count(distinct dialogue_id), count(*) from sentences where day_type='conversation'`
+    → **37 / 148**. 재실행해도 148 유지(멱등)
+  - `/` 페이지가 `sentence.dialogue` → docker `echoa_db` 결과를 `buildDialogueWindow`로 잘라 렌더 (웹→api→core→db 관통)
+  - `@echoa/db`(공개 진입점)에 `content_originals`가 없음을 테스트로 고정 (ADR-010 §3)
 - 단계 2: Better Auth 로그인 E2E, 보안헤더(CSP·HSTS) 응답 확인, Vercel 배포 후 Lighthouse.
 - 단계 3: 학습 플로우 E2E, 저작권 슬라이스 교체 완료 확인.
-- 단계 4: expo-speech TTS 실기기(iOS·Android) 동작, 녹음-재생 확인.
+- 단계 4: 실기기(iOS·Android) TTS 동작, 녹음-재생, AdMob 표시 확인.
 
 ---
 
-## 9. 다음 세션 착수 (handoff) — 2026-08-07 갱신: **단계 1 모노레포 스캐폴딩**
+## 9. 다음 세션 착수 (handoff) — 2026-08-07 저녁 갱신: **단계 2 웹 재구성**
+
+### 단계 1에서 만든 것
+
+| 패키지 | 내용 |
+|---|---|
+| `apps/web` | Next.js 16.3 · React 19.2 · Tailwind 4. tRPC RSC caller + `/api/trpc` 라우트. 점검용 페이지 1개 |
+| `packages/core` | legacy 순수 로직 7파일 + 도메인 타입. 테스트 74개. `gamification`은 규칙만 남기고 DB I/O 분리 |
+| `packages/db` | 22테이블 clean baseline, 실 FK, Better Auth 코어 테이블, `content_originals` 격리, seed |
+| `packages/api` | tRPC v11. `sentence` 라우터만 동작, 나머지 3개는 사유 적힌 스텁 |
+| `tooling/*` | tsconfig · eslint(flat, ESLint 10) · prettier |
+
+개발 DB는 공용 컨테이너 `local-pgvector-18`의 **`echoa_db`**
+(`dev-env/common-docker/init/01-databases.sql`·README 등록 완료).
+
+### 단계 2에서 할 일 (의존 순서)
+
+1. **[22번 학습설계 spec 검토·확정](22_learning-design-spec.md)** — 지금 "초안 · 검토 대기".
+   이게 나머지 거의 전부의 선행 조건이다:
+   - §9 화면 명세 → 디자인 시스템 입력 ([docs/ui-design/README.md](../ui-design/README.md))
+   - §3 세션 구조 → `review`·`progress` 라우터 스텁을 채울 근거
+   - C-2 소비 방식([E-04](../adr/000_decision-log.md))과 미모델링 4테이블([E-05](24_deferred-legacy-tables.md))을
+     **묶어서** 판정 — 둘 다 "패턴 변형을 학습 흐름에서 어떻게 쓸까"라는 같은 문제다
+2. **디자인 시스템** — claude.ai/design "Create here"(코드 불필요, 지금도 가능) → 구현 → `/design-sync`.
+   1번과 병행 가능하지만 §9가 흔들리면 두 번 그리게 된다.
+3. **Better Auth 연결** — `packages/db`에 스키마는 이미 있다. `protectedProcedure`가 실제로 동작하게 되고
+   [E-02·E-03](../adr/000_decision-log.md)(소셜 프로바이더·가입 유도 시점)이 여기서 풀린다.
+4. **legacy 데이터 이관** — 문장 3,622·단어 3,920·콜로케이션 5,705.
+   1번의 4테이블 판정이 선행돼야 이관 스크립트를 두 번 안 짠다. drift 실측도 필요.
+5. **C-1 446건 적재** — 로더·정규화는 `packages/db/src/seed/c1-rewrites.ts`에 준비돼 있다.
+   막힌 것은 **원문**이다 — `content_originals.original_text_en`이 legacy Neon DB(또는 gitignore된
+   `tools/content-pipeline/data/work/c1_full_seeds.jsonl`)에만 있어 4번과 같이 처리한다.
+
+### 착수 프롬프트 (복붙용)
+
+> Echoa 단계 2를 시작한다. 단계 1(모노레포 스캐폴딩)은 끝났다 —
+> `docs/project-review/21_rebuild-plan.md` §9와 `docs/adr/011_scaffolding-and-app-shell-deferral.md`를 먼저 읽어라.
+> 먼저 `docs/project-review/22_learning-design-spec.md`를 검토해 확정 상태로 올린다.
+> 특히 §9 화면 명세, §3 세션 구조, 그리고 미결정 두 개를 **묶어서** 판정한다 —
+> C-2 변형 소비 방식(23 §9 / E-04)과 미모델링 legacy 테이블 4개(docs/project-review/24_deferred-legacy-tables.md / E-05).
+> 둘 다 "패턴 변형을 학습 흐름에서 어떻게 쓸까"라는 같은 문제다.
+
+---
+
+## 9-0. 이전 handoff (2026-08-07 오전, 스캐폴딩 착수 시점)
 
 ### 콘텐츠 파이프라인은 여기서 멈춘다 (완료·보류 구분)
 
@@ -121,7 +184,7 @@ Spec-driven(자연어 spec → 타입/스키마 → 구현, spec이 SSOT):
 
 ### 왜 스캐폴딩이 먼저인가
 
-1. **코드가 콘텐츠에 의존하지 않는다** — 스캐폴딩은 create-t3-turbo + legacy TS 로직 이관이라 독립적이다.
+1. **코드가 콘텐츠에 의존하지 않는다** — 스캐폴딩은 워크스페이스 구성 + legacy TS 로직 이관이라 독립적이다.
 2. **콘텐츠는 코드에 의존한다** — 23 §9의 미결정이 앱 흐름에서만 풀린다.
 3. 기존 커리큘럼 3,622문장이 이미 있고 파일럿 1,122건이 더해졌다 — year1 학습에 충분하다.
 4. 21 §6 원칙("웹 먼저")과 19번의 "48개월 일괄 생성 금지"에 부합한다.
@@ -130,15 +193,21 @@ Spec-driven(자연어 spec → 타입/스키마 → 구현, spec이 SSOT):
 
 `packages/db` 스키마에 ADR-010을 반영할 때 아래를 함께 고려한다:
 
-| 산출물 | 적재 대상 | 비고 |
+| 산출물 | 적재 대상 | 2026-08-07 실제 처리 |
 |---|---|---|
-| `c1_final.jsonl` 27 + `c1_full_final.jsonl` 419 | `sentences.text_en` 교체, `content_origin='ai_rewritten'` | **원문은 `content_originals`로 격리** (공개 API·git·CSV 제외) |
-| `c2_final.jsonl` 528 | 신규 문장 (`ai_generated`) | 학습 흐름 소비 방식이 23 §9 미결정 — **앱 흐름 확정 후 적재** |
-| `c3_rows_final.jsonl` 148행 | `day_type='conversation'` 기존 스키마 그대로 | 스키마 검증 완료(충돌 0), 대화 번호 101~ |
+| `c1_final.jsonl` 27 + `c1_full_final.jsonl` 419 | `sentences.text_en` 교체, `content_origin='ai_rewritten'` | **로더·정규화만 완료**(`seed/c1-rewrites.ts`, 446건 확인). 원문이 legacy DB에만 있어 적재는 단계 2 |
+| `c2_final.jsonl` 528 | 신규 문장 (`ai_generated`) | **보류 확정** — 23 §9 미결정 + `id` 발번 규칙 없음 |
+| `c3_rows_final.jsonl` 148행 | `day_type='conversation'` 기존 스키마 그대로 | **적재 완료** (대화 37개 / 148행). `content_origin='ai_generated'` 주입 |
 
 `content_origin` enum(`self_authored`·`ai_generated`·`ai_rewritten`·`public_domain`)은 ADR-010 §2 그대로.
-적재 스크립트는 `tools/content-pipeline/`이 아니라 `packages/db`의 seed/migration으로 두는 편이 낫다
+적재 스크립트는 `tools/content-pipeline/`이 아니라 `packages/db`의 seed로 뒀다
 (파이프라인은 생성·검수 도구, 적재는 앱 자산).
+
+**적재하며 확인한 것**:
+- 두 C-1 파일은 **스키마가 다르다** — 파일럿엔 `day_type`·`cefr_level`·`month`가 없고 `review.external`이 있으며
+  `source_cand`가 `int | "reviewer_alternative"`다. 정규화 레이어를 뒀다.
+- 적재 순서 제약은 **C-1 → C-2 → C-3** (C-2 씨앗 25개가 C-1 재작성 텍스트를 패턴 고정부로 쓴다).
+- `c3_rows_preview.jsonl`은 `_final`과 바이트 동일한 검증 산출물이라 쓰지 않는다.
 
 ---
 
