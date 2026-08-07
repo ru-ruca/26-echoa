@@ -1,0 +1,31 @@
+{
+  "name": "echoa",
+  "private": true,
+  "engines": {
+    "node": ">=24.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo watch dev --continue",
+    "typecheck": "turbo run typecheck",
+    "lint": "turbo run lint --continue",
+    "lint:fix": "turbo run lint --continue -- --fix",
+    "test": "turbo run test",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "db:push": "turbo -F @echoa/db push",
+    "db:studio": "turbo -F @echoa/db studio",
+    "db:generate": "turbo -F @echoa/db generate",
+    "db:seed": "turbo -F @echoa/db seed",
+    "clean": "git clean -xdf node_modules .turbo"
+  },
+  "devDependencies": {
+    "@echoa/prettier-config": "workspace:*",
+    "prettier": "catalog:",
+    "turbo": "catalog:",
+    "typescript": "catalog:"
+  },
+  "prettier": "@echoa/prettier-config"
+}

@@ -1,0 +1,52 @@
+# tools/content-pipeline 은 Python(uv) 도구라 의도적으로 제외한다.
+packages:
+  - apps/*
+  - packages/*
+  - tooling/*
+
+# 버전은 여기 한 곳에서만 올린다. 각 패키지는 `catalog:` 로 참조.
+catalog:
+  # web
+  next: 16.3.0
+  react: 19.2.8
+  react-dom: 19.2.8
+  '@types/react': ^19.2.18
+  '@types/react-dom': ^19.2.4
+
+  # api
+  '@trpc/server': ^11.18.0
+  '@trpc/client': ^11.18.0
+  '@trpc/tanstack-react-query': ^11.18.0
+  '@tanstack/react-query': ^5.101.4
+  superjson: ^2.2.6
+  zod: ^4.4.3
+
+  # db — drizzle 1.0 은 아직 rc. legacy 와 동일한 0.45 계열 유지.
+  drizzle-orm: ^0.45.2
+  drizzle-kit: ^0.31.10
+  postgres: ^3.4.9
+  '@neondatabase/serverless': ^1.1.0
+
+  # core
+  ts-fsrs: ^5.4.1
+
+  # styling
+  tailwindcss: ^4.3.3
+  '@tailwindcss/postcss': ^4.3.3
+
+  # tooling
+  typescript: ^5.9.3
+  turbo: ^2.10.8
+  vitest: ^4.1.10
+  eslint: ^10.8.0
+  '@eslint/js': ^10.0.1
+  typescript-eslint: ^8.66.0
+  '@next/eslint-plugin-next': 16.3.0
+  prettier: ^3.9.6
+  '@types/node': ^24.10.0
+  dotenv-cli: ^11.0.0
+
+onlyBuiltDependencies:
+  - '@tailwindcss/oxide'
+  - esbuild
+  - sharp

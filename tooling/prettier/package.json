@@ -1,0 +1,17 @@
+{
+  "name": "@echoa/prettier-config",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./index.js"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "prettier": "catalog:"
+  },
+  "devDependencies": {
+    "@echoa/tsconfig": "workspace:*",
+    "typescript": "catalog:"
+  }
+}

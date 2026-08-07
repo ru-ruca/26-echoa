@@ -1,1 +1,33 @@
 .DS_Store
+
+_archive/
+_reference/
+
+# deps / build
+node_modules/
+.pnpm-store/
+.next/
+out/
+dist/
+build/
+.turbo/
+*.tsbuildinfo
+
+# env — 절대 커밋하지 않는다
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# test / coverage
+coverage/
+test-results/
+playwright-report/
+
+# 저작권 원문 격리 (ADR-010 §3)
+# content_originals(원저작물 verbatim)는 git·공개 CSV·공개 백업 어디에도 들어가지 않는다.
+# 년 단위 CSV 추출은 공개분(sentences)/원문분을 분리 추출하고, 원문분만 여기서 제외한다.
+# tools/content-pipeline/ 의 data/·reports/restricted/ 규칙은 그 위치의 .gitignore 가 담당한다.
+**/originals/
+*.originals.csv
+*.originals.jsonl
