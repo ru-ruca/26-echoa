@@ -1,6 +1,9 @@
-# 기획·설계 문서와 콘텐츠 파이프라인은 손으로 쓴 한국어 마크다운·Python 이다.
-# 포매터가 표 정렬이나 줄바꿈을 건드리면 diff 만 커지고 읽기 나빠진다.
-docs/
+# 마크다운은 전부 손으로 쓴 한국어다. prettier 의 표 정렬은 문자 수로 계산해서
+# 한글(표시 폭 2)에서는 오히려 어긋나고, diff 만 커진다.
+*.md
+**/*.md
+
+# 콘텐츠 파이프라인은 Python(uv) 이라 pnpm 워크스페이스 밖이다
 tools/
 
 # 생성물
@@ -10,6 +13,4 @@ packages/db/drizzle/
 .turbo/
 
 # Next.js 가 next dev/build 마다 다시 쓰는 파일
-apps/web/AGENTS.md
-apps/web/CLAUDE.md
 apps/web/next-env.d.ts
